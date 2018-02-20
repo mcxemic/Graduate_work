@@ -20,6 +20,7 @@ def create_classifier(duration_args, monotonous_args, scattering_args):
 
 
 def duration_input():
+    #
     # TODO check for nonzero numeric increasing (test)
 
     try:

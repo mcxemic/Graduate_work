@@ -1,5 +1,5 @@
 from Classifier.create_classifier import *
-
+from Generator.input_data import *
 
 def classifier_interface():
     print("Hello! Input scope of the duration of classifier.")
@@ -12,5 +12,13 @@ def classifier_interface():
     print(duration.__dict__, monotonuos.__dict__, scattering.__dict__)
 
 
+def generation_input():
+    start, stop, step, count = input_devices()
+    devices = create_devices(start, stop, step, count)
+    print(devices)
+
+
+
 if __name__ == '__main__':
     classifier_interface()
+    # generation_input()
