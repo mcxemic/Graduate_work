@@ -1,11 +1,10 @@
-{% extends "bootstrap/base.html" %}
-
-{% block title %} Graduate {% endblock %}
-
+{% block title %}Graduate{% endblock %}
 {% block head %}
-{{ super() }}
-<link rel="shortcut icon" href="{{ url_for('static', filename='schedule.ico') }}" type="image/x-icon">
-<link rel="icon" href="{{ url_for('static', filename='schedule.ico') }}" type="image/x-icon">
+
 {% endblock %}
-
-
+<body>
+<div>
+    {% block content %}
+    {% endblock %}
+</div>
+</body>

@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-
 {% extends "bootstrap/base.html" %}
 
-{% block styles %}
+{% block head %}
 {{super()}}
-<link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
 {% endblock %}
 
 {% block content %}
 <div class="container">
-<form method = "POST" action = "{{ url_for('index') }}">
-    {{ form.P }} <br>
-    {{ form.Q }} <br>
-    {{ form.H }} <br>
+    <form method="POST" action="{{ url_for('.index') }}">
+        {{ form.P }} <br>
+        {{ form.Q }} <br>
+        {{ form.H }} <br>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Змінити</button>
-</form>
+    </form>
 </div>
+<a href="options">options</a>
+
 {% endblock %}
