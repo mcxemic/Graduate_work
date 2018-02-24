@@ -1,0 +1,14 @@
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+{% endblock %}
+{% block content %}
+<h1>Тема: “Система з  підтримки процесу дослідження задач теорії розкладів” </h1>
+
+<li><a href="interface">Згенерувати задачу</a></li>
+<li><a href="#" >Обрати існуючу </a></li>
+
+{% endblock %}
+

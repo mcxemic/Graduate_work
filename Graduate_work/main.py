@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import IntegerField
+from wtforms import IntegerField, SelectField
 from wtforms.validators import NumberRange,InputRequired
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -106,9 +106,13 @@ def internal_server_error(e):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # TODO add classifier interaction
-    return render_template("interface.html")
+    return render_template("main.html")
 
+
+@app.route('/interface', methods=['GET', 'POST'])
+def interface():
+    form = InterfaceForm()
+    return render_template("interface.html", form=form)
 
 @app.route('/options', methods=['GET', 'POST'])
 def options():
@@ -116,7 +120,20 @@ def options():
     return render_template("options.html", form=form)
 
 
-######FORM CLASS
+
+
+
+class InterfaceForm(FlaskForm):
+    n_min = IntegerField('від')
+    n_max = IntegerField('до')
+    n_step = IntegerField('крок')
+    I_type = SelectField(u'Тип пристрою', choices=[(1, 'Ідентичні'), (2, 'Пропорційні'), (3, 'Незв\'язні')])
+    P = SelectField(u'P', choices=[(1, 'XS'), (2, 'S'), (3, 'M'), (4, 'L'), (5, 'XL')])
+    Q = SelectField(u'H', choices=[(1, 'XS'), (2, 'S'), (3, 'M'), (4, 'L'), (5, 'XL')])
+    H = SelectField(u'Q', choices=[(1, 'XS'), (2, 'S'), (3, 'M'), (4, 'L'), (5, 'XL')])
+    distribution = SelectField(u'Закон розподілу', choices=[(1, 'Нормальний'), (2, 'Рівномірний')])
+    amount_of_tasks = IntegerField('Кількість індивідуальних задач')
+    gen_algo = SelectField(u'Алгоритм генерації', choices=[(1, 'Нормальний'), (2, 'Рівномірний')])
 
 
 class OptionForm(FlaskForm):
