@@ -1,0 +1,3 @@
+password = FICT_ASU
+user = IS_42
+db = graduate
