@@ -15,7 +15,7 @@
 {% block content %}
 <div class="container">
 <form   class="form-signin" method = "POST" action = "{{ url_for('options') }}">
-    <h2 class="form-signin-heading">P</h2>
+    <h2>P</h2>
     {{ form.csrf_token }} <br>
     {{ form.P_XS.label }}
     {{ form.P_XS }} <br>
@@ -27,7 +27,7 @@
     {{ form.P_L }} <br>
     {{ form.P_XL.label }}
     {{ form.P_XL }} <br>
-    <h2 class="form-signin-heading">H</h2>
+    <h2>H</h2>
     {{ form.Q_XS.label }}
     {{ form.Q_XS }} <br>
     {{ form.Q_S.label }}
@@ -38,7 +38,7 @@
     {{ form.Q_L }} <br>
     {{ form.Q_XL.label }}
     {{ form.Q_XL }} <br>
-    <h2 class="form-signin-heading">Q</h2>
+    <h2>Q</h2>
     {{ form.H_XS.label }}
     {{ form.H_XS }} <br>
     {{ form.H_S.label }}
