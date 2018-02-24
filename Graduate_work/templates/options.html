@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+{% extends "bootstrap/base.html" %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Вхідні параметри</title>
+</head>
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='options.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<form   class="form-signin" method = "POST" action = "{{ url_for('options') }}">
+    <h2 class="form-signin-heading">P</h2>
+    {{ form.csrf_token }} <br>
+    {{ form.P_XS.label }}
+    {{ form.P_XS }} <br>
+    {{ form.P_S.label }}
+    {{ form.P_S }} <br>
+    {{ form.P_M.label }}
+    {{ form.P_M }} <br>
+    {{ form.P_L.label }}
+    {{ form.P_L }} <br>
+    {{ form.P_XL.label }}
+    {{ form.P_XL }} <br>
+    <h2 class="form-signin-heading">H</h2>
+    {{ form.Q_XS.label }}
+    {{ form.Q_XS }} <br>
+    {{ form.Q_S.label }}
+    {{ form.Q_S }} <br>
+    {{ form.Q_M.label }}
+    {{ form.Q_M }} <br>
+    {{ form.Q_L.label }}
+    {{ form.Q_L }} <br>
+    {{ form.Q_XL.label }}
+    {{ form.Q_XL }} <br>
+    <h2 class="form-signin-heading">Q</h2>
+    {{ form.H_XS.label }}
+    {{ form.H_XS }} <br>
+    {{ form.H_S.label }}
+    {{ form.H_S }} <br>
+    {{ form.H_M.label }}
+    {{ form.H_M }} <br>
+    {{ form.H_L.label }}
+    {{ form.H_L }} <br>
+    {{ form.H_XL.label }}
+    {{ form.H_XL }} <br>
+    <h2 class="form-signin-heading">C</h2>
+    {{ form.C }} <br>
+    <ul>
+    {% for error in form.errors %}
+        <li style = "color:red;"> {{ error }} </li>
+            {% endfor %}
+    </ul>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Змінити</button>
+</form>
+</div>
+{% endblock %}
