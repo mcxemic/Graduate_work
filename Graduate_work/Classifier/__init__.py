@@ -1,8 +1,3 @@
-from flask import Blueprint
-
-dbi = "postgresql://postgres:password@localhost/graduate"
-Classifier = Blueprint('Classifier', __name__)
-
 from . import *
 
 
@@ -20,8 +15,8 @@ def json_from_form(form):
                                                                                   dispersion_h_dict)
     return [duration_p_json, scattering_q_json, dispersion_h_json]
 
+
 def create_dict_from_list(object):
-    print(object[0])
     object_dict = {}
     object_dict['XS'] = object[0]
     object_dict['S'] = object[1]
@@ -33,25 +28,33 @@ def create_dict_from_list(object):
 
 def create_JSON_from_dict(object1, object2, object3):
     import json
-    print("object 1", type(object1), object1)
     object_json1 = json.dumps(object1)
-
-    print('object json 1', object_json1)
     object_json2 = json.dumps(object2)
     object_json3 = json.dumps(object3)
     return object_json1, object_json2, object_json3
 
 
-def insert_in_classifier_table(duration_p, scattering_q, dispersion_h, tablename):
-    from sqlalchemy import create_engine
-    ins = tablename.insert().values(duration_p=duration_p, scattering_q=scattering_q, dispersion_h=dispersion_h)
-    engine = create_engine(dbi)
-    conn = engine.connect()
-    conn.execute(ins)
+def insert_in_classifier_table(duration_p, scattering_q, dispersion_h):
+    from ..models import Classifier
+    from .. import db
+    cl = Classifier(duration_p=duration_p, scattering_q=scattering_q, dispersion_h=dispersion_h)
+    db.session.add(cl)
+    db.session.commit()
+    # ins = tablename.insert().values(duration_p=duration_p, scattering_q=scattering_q, dispersion_h=dispersion_h)
+    # engine = create_engine(dbi)
+    # conn = engine.connect()
+    # conn.execute(ins)
+
+
+def output_from_classifier_table():
+    from ..models import Classifier
+    out = Classifier.query.all()
+
+    return out
 
 
 def create_list_from_form(form):
-    duration_p = [form.P_XS, form.P_S, form.P_M, form.P_L, form.P_XL]
-    scattering_q = [form.Q_XS, form.Q_S, form.Q_M, form.Q_L, form.Q_XL]
-    dispersion_h = [form.H_XS, form.H_S, form.H_M, form.H_L, form.H_XL]
+    duration_p = [form.P_XS.data, form.P_S.data, form.P_M.data, form.P_L.data, form.P_XL.data]
+    scattering_q = [form.Q_XS.data, form.Q_S.data, form.Q_M.data, form.Q_L.data, form.Q_XL.data]
+    dispersion_h = [form.H_XS.data, form.H_S.data, form.H_M.data, form.H_L.data, form.H_XL.data]
     return duration_p, scattering_q, dispersion_h
