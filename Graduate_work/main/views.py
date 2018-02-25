@@ -19,20 +19,20 @@ def index():
 @main.route('/result_task', methods=['GET'])
 def result_task():
     option_set, option_task = output_from_task_table()
+    print('set', option_set)
+    print('task', option_task)
     return render_template("result_task.html", option_set=option_set, option_task=option_task)
 
 
 @main.route('/result_classifier', methods=['GET'])
 def result_classifier():
     option = output_from_classifier_table()
-    print(option)
     return render_template("result_options.html", option=option)
 
 
 @main.route('/options', methods=['POST', 'GET'])
 def options():
     form = OptionForm()
-
     json_form_data = json_from_form(form)
     insert_in_classifier_table(duration_p=json_form_data[0],
                                scattering_q=json_form_data[1],
