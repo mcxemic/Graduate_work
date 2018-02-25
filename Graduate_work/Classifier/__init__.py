@@ -1,4 +1,10 @@
+from flask import Blueprint
+
 from . import *
+from . import views
+
+classifiers = Blueprint('classifier', __name__)
+
 
 
 def list_from_object(duration_p, scattering_q, dispersion_h):
@@ -49,9 +55,14 @@ def insert_in_classifier_table(duration_p, scattering_q, dispersion_h):
 def output_from_classifier_table():
     from ..models import Classifier
     out = Classifier.query.all()
-
     return out
 
+
+def output_from_task_table():
+    from ..models import Task, Set
+    out_set = Set.query.all()
+    out_task = Task.query.all()
+    return out_set, out_task
 
 def create_list_from_form(form):
     duration_p = [form.P_XS.data, form.P_S.data, form.P_M.data, form.P_L.data, form.P_XL.data]
