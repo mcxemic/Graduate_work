@@ -15,16 +15,10 @@ def index():
 def options():
     from ..models import Classifier
     form = OptionForm()
-    duration_p, scattering_q, dispersion_h = create_list_from_form(form)
-    duration_p_dict = create_dict_from_list(duration_p)
-    scattering_q_dict = create_dict_from_list(scattering_q)
-    dispersion_h_dict = create_dict_from_list(dispersion_h)
-    duration_p_json = create_JSON_from_dict(duration_p_dict)
-    scattering_q_json = create_JSON_from_dict(scattering_q_dict)
-    dispersion_h_json = create_JSON_from_dict(dispersion_h_dict)
-    insert_in_classifier_table(duration_p=duration_p_json,
-                               scattering_q=scattering_q_json,
-                               dispersion_h=dispersion_h_json, tablename=Classifier.__tablename__)
-
+    print(form)
+    objects_json = json_from_form(form)
+    insert_in_classifier_table(duration_p=objects_json[0],
+                               scattering_q=objects_json[1],
+                               dispersion_h=objects_json[2], tablename=Classifier.__tablename__)
 
     return render_template("options.html", form=form)
