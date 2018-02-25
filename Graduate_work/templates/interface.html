@@ -8,20 +8,22 @@
 {% block content %}
 <div class="container">
     <form method="POST">
-       Пристрої <br>
+         <legend>Пристрої</legend>
         Тип {{ form.I_type }} <br>
         Кількість
-        {{ form.n_min.label }}
+     <label> {{ form.n_min.label }} </label>
         {{ form.n_min }}
         {{ form.n_max.label }}
         {{ form.n_max }}
         {{ form.n_step.label }}
         {{ form.n_step }} <br>
+           </fieldset>
+        <legend>Завдання</legend>
         {{ form.P.label }}
-        {{ form.P }} <br>
+        {{ form.P(class_="custom-select") }} <br>
         {{ form.Q.label }}
         {{ form.Q }} <br>
-        {{ form.H.label }}
+         {{ form.H.label }}
         {{ form.H }} <br>
         {{ form.distribution.label }}
         {{ form.distribution }} <br>
@@ -29,12 +31,16 @@
         {{ form.amount_of_tasks }} <br>
         {{ form.gen_algo.label }}
         {{ form.gen_algo }} <br>
-        Критерії
-        здесь будет таблица завтра
+     <legend> Критерії</legend>
+        <select class="custom-select" size="3">
+             <option selected value="1">One</option>
+             <option value="2">Two</option>
+             <option value="3">Three</option>
+        </select>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Змінити</button>
     </form>
-</div>
+   </div>
 <a href="options">options</a>
 
 {% endblock %}
