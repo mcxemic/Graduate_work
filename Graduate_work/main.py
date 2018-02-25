@@ -138,7 +138,7 @@ class InterfaceForm(FlaskForm):
 
 class OptionForm(FlaskForm):
     P_XS = IntegerField('XS', validators=[InputRequired(), NumberRange(1, 100)])
-    P_S = IntegerField('S ')
+    P_S = IntegerField('S')
     P_M = IntegerField('M ')
     P_L = IntegerField('L ')
     P_XL = IntegerField('XL')

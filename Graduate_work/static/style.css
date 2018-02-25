@@ -4,7 +4,10 @@ body {
   background-color: #eee;
 }
 
-.textlabel{
-margin-right: 50px;
-color: blue;
+label {
+  width: 1100px;
+  display: block;
+  vertical-align: top;
+  margin: 6px;
+  color : red
 }
