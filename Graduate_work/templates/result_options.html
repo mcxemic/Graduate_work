@@ -6,6 +6,12 @@
     <title>Title</title>
 </head>
 <body>
+<a href="/">Home</a>
+<a href="/result_task">Result Task</a>
+<a href="/interface">Create set</a>
+<a href="/options">Create classifier</a>
+<a href="/result_classifier">Result Classifier</a>
+<br>
 {% for o in option %}
 id: {{o.id}} P: {{o.duration_p}} Q: {{o.scattering_q}} H: {{o.dispersion_h}}<br>
 {% endfor %}

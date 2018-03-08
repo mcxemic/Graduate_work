@@ -6,9 +6,25 @@
     <title>Title</title>
 </head>
 <body>
+<a href="/">Home</a>
+<a href="/result_task">Result Task</a>
+<a href="/interface">Create set</a>
+<a href="/options">Create classifier</a>
+<a href="/result_classifier">Result Classifier</a>
+
 <h1>Set</h1><br>
 {% for o in option_set %}
-<h1>id :</h1> {{o.id}}<br>
+<br>id : {{o.id }}
+<b>Size Q:</b> {{o.size_q}}
+<b>Size H:</b> {{o.size_h}}
+Size P: {{o.size_p}}
+Classifier id: {{o.classifier_id}}
+Type devices: {{o.type_device}}
+Task count: {{o.tasks_count}}
+Criterion: {{o.criterion_device}}
+Distribution: {{o.distribution}}
+Alg generation: {{o.algorithm_generation}}
+<br>
 {% endfor %}
 <br>
 <br>

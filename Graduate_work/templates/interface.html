@@ -6,6 +6,13 @@
 {% endblock %}
 
 {% block content %}
+<a href="/">Home</a>
+<a href="/result_task">Result Task</a>
+<a href="/interface">Create set</a>
+<a href="/options">Create classifier</a>
+<a href="/result_classifier">Result Classifier</a>
+<br>
+
 <div class="container">
     <form method="POST">
          <legend>Пристрої</legend>
@@ -23,7 +30,7 @@
         {{ form.P(class_="custom-select") }} <br>
         {{ form.Q.label }}
         {{ form.Q }} <br>
-         {{ form.H.label }}
+        {{ form.H.label }}
         {{ form.H }} <br>
         {{ form.distribution.label }}
         {{ form.distribution }} <br>

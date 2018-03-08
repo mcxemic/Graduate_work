@@ -34,3 +34,4 @@ class InterfaceForm(FlaskForm):
     gen_algo = SelectField(u'Алгоритм генерації', choices=[(1, 'Нормальний'), (2, 'Рівномірний')])
 
 
+    # Todo add criterion

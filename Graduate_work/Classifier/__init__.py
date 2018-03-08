@@ -1,5 +1,3 @@
-from flask import Blueprint
-
 from . import *
 from . import views
 
@@ -14,7 +12,7 @@ def list_from_object(duration_p, scattering_q, dispersion_h):
     return duration_p_dict, scattering_q_dict, dispersion_h_dict
 
 
-def json_from_form(form):
+def json_from_option_form(form):
     duration_p, scattering_q, dispersion_h = create_list_from_form(form)
     duration_p_dict, scattering_q_dict, dispersion_h_dict = list_from_object(duration_p, scattering_q, dispersion_h)
     duration_p_json, scattering_q_json, dispersion_h_json = create_JSON_from_dict(duration_p_dict, scattering_q_dict,
@@ -46,10 +44,22 @@ def insert_in_classifier_table(duration_p, scattering_q, dispersion_h):
     cl = Classifier(duration_p=duration_p, scattering_q=scattering_q, dispersion_h=dispersion_h)
     db.session.add(cl)
     db.session.commit()
-    # ins = tablename.insert().values(duration_p=duration_p, scattering_q=scattering_q, dispersion_h=dispersion_h)
-    # engine = create_engine(dbi)
-    # conn = engine.connect()
-    # conn.execute(ins)
+
+
+def insert_in_set_table(form):
+    from ..models import Set, Classifier
+    from .. import db
+    sets = {'P': form.P.data, 'Q': form.Q.data, 'H': form.H.data,
+            'n_min': form.n_min.data, 'n_max': form.n_max.data, 'n_step': form.n_step.data,
+            'I_type': form.I_type.data, 'distribution': form.distribution.data,
+            'amount_of_tasks': form.amount_of_tasks.data, 'gen_algo': form.gen_algo.data}
+    print(sets)
+    st = Set(size_q=sets['Q'], size_h=sets['H'], size_p=sets['P'],
+             classifier_id=db.session.query(func.max(Classifier.id)),
+             type_device=sets['I_type'], tasks_count=sets['amount_of_tasks'],
+             distribution=sets['distribution'], algorithm_generation=sets['gen_algo'])
+    db.session.add(st)
+    db.session.commit()
 
 
 def output_from_classifier_table():
