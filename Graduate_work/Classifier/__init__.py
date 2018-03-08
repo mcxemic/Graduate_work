@@ -44,6 +44,10 @@ def insert_in_classifier_table(duration_p, scattering_q, dispersion_h):
     cl = Classifier(duration_p=duration_p, scattering_q=scattering_q, dispersion_h=dispersion_h)
     db.session.add(cl)
     db.session.commit()
+    # ins = tablename.insert().values(duration_p=duration_p, scattering_q=scattering_q, dispersion_h=dispersion_h)
+    # engine = create_engine(dbi)
+    # conn = engine.connect()
+    # conn.execute(ins)
 
 
 def insert_in_set_table(form):
@@ -79,3 +83,10 @@ def create_list_from_form(form):
     scattering_q = [form.Q_XS.data, form.Q_S.data, form.Q_M.data, form.Q_L.data, form.Q_XL.data]
     dispersion_h = [form.H_XS.data, form.H_S.data, form.H_M.data, form.H_L.data, form.H_XL.data]
     return duration_p, scattering_q, dispersion_h
+
+
+def create_tasks(form):
+    from ..models import Set
+    from .. import db
+    devises_amount = list(range(form.n_min.data, form.n_max.data, form.n_step.data))
+    set_id = db.session.query(func.max(Set.id))

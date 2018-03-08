@@ -9,7 +9,9 @@ from ..Classifier import *
 def interface():
     form = InterfaceForm()
     if request.method == 'POST':  # TODO check why form is not valid
+
         insert_in_set_table(form)
+        create_tasks(form)
         return redirect('/')
     return render_template("interface.html", form=form)
 
