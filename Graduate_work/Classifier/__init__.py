@@ -1,7 +1,8 @@
 from . import *
 from . import views
 
-classifiers = Blueprint('classifier', __name__)
+
+# classifiers = Blueprint('classifier', __name__)
 
 
 
