@@ -43,6 +43,6 @@ class Task(db.Model):
     set_id = db.Column(db.Integer, db.ForeignKey('sets.id'))
     productivity_factors = db.Column(db.ARRAY(db.Float))
     devises_amount = db.Column(db.Integer)
-    tasks_amount = db.Column(db.Integer)
+    tasks_amount = db.Column(db.JSON)
 
     # TODO __repr__
