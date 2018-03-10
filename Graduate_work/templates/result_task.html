@@ -30,7 +30,8 @@ Alg generation: {{o.algorithm_generation}}
 <br>
 <h1>Task</h1><br>
 {% for o in option_task %}
-<h1>id :</h1> {{o.id}}<br>
+id : {{o.id}} tasks: {{o.tasks}} devices: {{o.devises_amount}} productivity: {{o.productivity_factor}} set_id
+{{o.set_id}}<br>
 {% endfor %}
 </body>
 </html>

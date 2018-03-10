@@ -1,5 +1,3 @@
-from sqlalchemy.sql.expression import func
-
 from . import *
 from . import views
 
@@ -108,12 +106,12 @@ def create_tasks(form):
     devises_amount = len(productivity_factors)
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
     s = big_fucking_function(form.amount_of_tasks.data, devises, dur_P, scat_Q, C)
-    print(s[0])
+
 
     # TODO write tasks to task database
     for i in range(form.amount_of_tasks.data):
-        tsk = Task(set_id=set_id, productivity_factors=productivity_factors,
-                   devises_amount=devises_amount, tasks_amount=s[i])
+        tsk = Task(set_id=set_id, productivity_factor=json.dumps(productivity_factors),
+                   devises_amount=devises_amount, tasks=json.dumps(s[i]))
         db.session.add(tsk)
         db.session.commit()
 
