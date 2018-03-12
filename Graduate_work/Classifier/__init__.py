@@ -1,3 +1,5 @@
+from sqlalchemy.sql.expression import func
+
 from . import *
 from . import views
 
@@ -45,10 +47,6 @@ def insert_in_classifier_table(duration_p, scattering_q, dispersion_h):
     cl = Classifier(duration_p=duration_p, scattering_q=scattering_q, dispersion_h=dispersion_h)
     db.session.add(cl)
     db.session.commit()
-    # ins = tablename.insert().values(duration_p=duration_p, scattering_q=scattering_q, dispersion_h=dispersion_h)
-    # engine = create_engine(dbi)
-    # conn = engine.connect()
-    # conn.execute(ins)
 
 
 def insert_in_set_table(form):

@@ -31,7 +31,7 @@ def create_machine(mu, sigma, c):
     machine = []
     while sum(machine) < c:
         if sum(machine) < c - mu - sigma:
-            machine.append(create_normal_distribution(mu, sigma))
+            machine.append(abs(create_normal_distribution(mu, sigma)))
         else:
             machine.append(c - sum(machine))
     return machine
