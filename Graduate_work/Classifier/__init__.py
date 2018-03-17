@@ -1,11 +1,8 @@
-from sqlalchemy.sql.expression import func
-
 from . import *
 from . import views
 
 
 # classifiers = Blueprint('classifier', __name__)
-
 
 
 def list_from_object(duration_p, scattering_q, dispersion_h):
@@ -104,7 +101,6 @@ def create_tasks(form):
     devises_amount = len(productivity_factors)
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
     s = big_fucking_function(form.amount_of_tasks.data, devises, dur_P, scat_Q, C)
-
 
     # TODO write tasks to task database
     for i in range(form.amount_of_tasks.data):
