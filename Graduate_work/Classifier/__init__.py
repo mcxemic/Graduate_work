@@ -1,3 +1,5 @@
+from sqlalchemy import func
+
 from . import *
 from . import views
 
@@ -87,7 +89,7 @@ def create_tasks(form):
     from .. import db
     from ..main import big_fucking_function
     import json
-    C = 1000
+    С = form.C.data
     devises = list(range(form.n_min.data, form.n_max.data, form.n_step.data))
     print(devises)
     # TODO get data from set form

@@ -10,14 +10,22 @@ def big_fucking_function(count_set, count_devices, mean_duration_P, deviation_du
     for _ in range(count_set):
         sets.append([])
     for j in range(len(count_devices)):
+
         sets[j].append(set_of_machine(count_devices[j], mean_duration_P, deviation_duration_Q, C))
     return sets
 
 
 def create_normal_distribution(mu, sigma, size=1):
     import numpy.random as np
+
     x = np.normal(mu, sigma, size)
-    return int(x)
+    if (x >= 0):
+        if x > mu + 2 * sigma:
+            return int(mu + 2 * sigma)
+        else:
+            return int(x)
+    else:
+        return 0
 
 
 def set_of_machine(count_devices, mu, sigma, C):
