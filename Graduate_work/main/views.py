@@ -7,6 +7,9 @@ from ..Classifier import *
 
 @main.route('/interface', methods=['GET', 'POST'])
 def interface():
+    # Todo записать в таблицу данные с формы
+
+
     form = InterfaceForm()
     if request.method == 'POST':  # TODO check why form is not valid
 
@@ -40,8 +43,19 @@ def options():
     if request.method == 'POST':
         json_form_data = json_from_option_form(form)
         insert_in_classifier_table(duration_p=json_form_data[0],
-                               scattering_q=json_form_data[1],
-                               dispersion_h=json_form_data[2])
+                                   scattering_q=json_form_data[1],
+                                   dispersion_h=json_form_data[2])
         print("insert succsessfull", json_form_data)
         return redirect('/interface')
     return render_template("options.html", form=form)
+
+
+@main.route('/deleteall', )
+def delete():
+    from ..models import Classifier, Set, Task
+    from .. import db
+    db.session.query(Task).delete()
+    db.session.query(Set).delete()
+    db.session.query(Classifier).delete()
+    db.session.commit()
+    return render_template('deleteall.html')

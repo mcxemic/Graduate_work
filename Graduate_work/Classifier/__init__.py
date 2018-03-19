@@ -1,5 +1,3 @@
-from sqlalchemy import func
-
 from . import *
 from . import views
 
@@ -24,6 +22,7 @@ def json_from_option_form(form):
 
 def create_dict_from_list(object):
     object_dict = {}
+
     object_dict['XS'] = object[0]
     object_dict['S'] = object[1]
     object_dict['M'] = object[2]
@@ -85,31 +84,24 @@ def create_list_from_form(form):
 
 
 def create_tasks(form):
-    from ..models import Set, Classifier, Task
+    # TODO rewrite
+    from ..models import Set
     from .. import db
-    from ..main import big_fucking_function
-    import json
-    С = form.C.data
+
+    # Todo Проверить закон распределение и передать
+    print("Create task  ")
+    # C = form.C.data
+    C = 1000
+
     devises = list(range(form.n_min.data, form.n_max.data, form.n_step.data))
-    print(devises)
-    # TODO get data from set form
-    classifiers = db.session.query(Classifier).order_by(Classifier.id)[-1]
-    scat_Q = return_classifier_value(form.Q.data, json.loads(classifiers.scattering_q))
-    dur_P = return_classifier_value(form.P.data, json.loads(classifiers.duration_p))
-    dis_h = return_classifier_value(form.H.data, json.loads(classifiers.dispersion_h))
-    # TODO get last classifier
-    # TODO generate task from set form
+    scat_Q, dur_P, dis_H = get_factors_from_forms(form)
     productivity_factors = set_of_productivity(devises, form.I_type.data)
     devises_amount = len(productivity_factors)
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
-    s = big_fucking_function(form.amount_of_tasks.data, devises, dur_P, scat_Q, C)
+    # Todo Проверить тип, вызвать и сохранить идентичность или нет
 
-    # TODO write tasks to task database
-    for i in range(form.amount_of_tasks.data):
-        tsk = Task(set_id=set_id, productivity_factor=json.dumps(productivity_factors),
-                   devises_amount=devises_amount, tasks=json.dumps(s[i]))
-        db.session.add(tsk)
-        db.session.commit()
+    sets = generate_sets(form.amount_of_tasks.data, devises, dur_P, scat_Q, C)
+    write_to_task_table(form, set_id, productivity_factors, devises_amount, sets)
 
 
 def create_productivity_factor(length, type, k_list=None):
@@ -137,3 +129,27 @@ def set_of_productivity(count_devices, type):
     for i in count_devices:
         sets_of_machine.append(create_productivity_factor(i, type))
     return sets_of_machine
+
+
+def get_factors_from_forms(form):
+    from ..models import Classifier
+    from .. import db
+    import json
+
+    classifiers = db.session.query(Classifier).order_by(Classifier.id)[-1]
+    scat_Q = return_classifier_value(form.Q.data, json.loads(classifiers.scattering_q))
+    dur_P = return_classifier_value(form.P.data, json.loads(classifiers.duration_p))
+    dis_h = return_classifier_value(form.H.data, json.loads(classifiers.dispersion_h))
+
+    return scat_Q, dur_P, dis_h
+
+
+def write_to_task_table(form, set_id, productivity_factors, devices_amount, sets):
+    from ..models import Task
+    from .. import db
+    import json
+    for i in range(form.amount_of_tasks.data):
+        tsk = Task(set_id=set_id, productivity_factor=json.dumps(productivity_factors),
+                   devises_amount=devices_amount, tasks=json.dumps(sets[i]))
+        db.session.add(tsk)
+        db.session.commit()
