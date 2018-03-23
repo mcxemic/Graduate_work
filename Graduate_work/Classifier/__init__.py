@@ -1,8 +1,7 @@
+from sqlalchemy import func
+
 from . import *
 from . import views
-
-
-# classifiers = Blueprint('classifier', __name__)
 
 
 def list_from_object(duration_p, scattering_q, dispersion_h):
@@ -87,20 +86,23 @@ def create_tasks(form):
     # TODO rewrite
     from ..models import Set
     from .. import db
+    from ..main import generate_sets
 
     # Todo Проверить закон распределение и передать
     print("Create task  ")
     # C = form.C.data
-    C = 1000
+    C = 10000
 
     devises = list(range(form.n_min.data, form.n_max.data, form.n_step.data))
     scat_Q, dur_P, dis_H = get_factors_from_forms(form)
+    real_p = C / dur_P
     productivity_factors = set_of_productivity(devises, form.I_type.data)
     devises_amount = len(productivity_factors)
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
     # Todo Проверить тип, вызвать и сохранить идентичность или нет
 
-    sets = generate_sets(form.amount_of_tasks.data, devises, dur_P, scat_Q, C)
+    print("Count set in ", form.amount_of_tasks.data)
+    sets = generate_sets(form.amount_of_tasks.data, devises, real_p, scat_Q, C)
     write_to_task_table(form, set_id, productivity_factors, devises_amount, sets)
 
 
