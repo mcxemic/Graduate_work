@@ -1,5 +1,3 @@
-from sqlalchemy import func
-
 from . import *
 from . import views
 
@@ -91,26 +89,23 @@ def create_tasks(form):
     # Todo Проверить закон распределение и передать
     print("Create task  ")
     # C = form.C.data
-    C = 10000
+    C = 100000
 
     devises = list(range(form.n_min.data, form.n_max.data, form.n_step.data))
     scat_Q, dur_P, dis_H = get_factors_from_forms(form)
     real_p = C / dur_P
-    productivity_factors = set_of_productivity(devises, form.I_type.data)
+    productivity_factors = set_of_productivity(devices=devises, type=form.I_type.data)
+
     devises_amount = len(productivity_factors)
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
     # Todo Проверить тип, вызвать и сохранить идентичность или нет
 
-    print("Count set in ", form.amount_of_tasks.data)
-    sets = generate_sets(form.amount_of_tasks.data, devises, real_p, scat_Q, C)
+    sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, scat_Q, C)
     write_to_task_table(form, set_id, productivity_factors, devises_amount, sets)
 
 
-def create_productivity_factor(length, type, k_list=None):
-    if type == '1':
-        return length * [1]
-    else:
-        return k_list
+def create_productivity_factor(length):
+    return length * [1]
 
 
 def return_classifier_value(sets, classifier):
@@ -126,10 +121,10 @@ def return_classifier_value(sets, classifier):
         return classifier.get('XL')
 
 
-def set_of_productivity(count_devices, type):
+def set_of_productivity(devices, type_task):
     sets_of_machine = []
-    for i in count_devices:
-        sets_of_machine.append(create_productivity_factor(i, type))
+    for i in devices:
+        sets_of_machine.append(create_productivity_factor(type_task, i))
     return sets_of_machine
 
 
@@ -151,7 +146,17 @@ def write_to_task_table(form, set_id, productivity_factors, devices_amount, sets
     from .. import db
     import json
     for i in range(form.amount_of_tasks.data):
-        tsk = Task(set_id=set_id, productivity_factor=json.dumps(productivity_factors),
+        tsk = Task(set_id=set_id, productivity_factor=json.dumps(productivity_factors[i]),
                    devises_amount=devices_amount, tasks=json.dumps(sets[i]))
         db.session.add(tsk)
         db.session.commit()
+
+
+def check_type_of_task(type_task, device_amount):
+    if type_task == '1':
+        productivity_factors = device_amount * [1]
+        return productivity_factors
+    elif type_task == '2':
+        pass
+    elif type_task == '3':
+        pass
