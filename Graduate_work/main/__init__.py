@@ -40,7 +40,7 @@ def create_task_for_multiply_machine(type_distribution, count_devices, mu, sigma
 
 def create_task_for_one_machine(type_distribution, mu, sigma, c):
     print("create task for one machine", type_distribution, mu, sigma, c)
-    normal_distribution_set = choose_distribution(type_distribution, mu, sigma, int(c / mu) - 1)
+    normal_distribution_set = choose_distribution(type_distribution, mu, sigma, c)
     machine = [int(i) for i in normal_distribution_set]
     if sum(machine) < c:
         machine.append(c - sum(machine))
@@ -50,6 +50,7 @@ def create_task_for_one_machine(type_distribution, mu, sigma, c):
 
 def normal_distribution(mean, deviation, size=1):
     import numpy as np
+    print(mean, deviation, size, ' normal distr')
     mac = np.random.normal(mean, deviation, size)
 
     return mac
@@ -61,7 +62,8 @@ def create_uniform_distribution(mu, sigma, size):
 
 
 def choose_distribution(type_distribution, mu, sigma, c):
+    print('type', type_distribution)
     if type_distribution == '1':
         return normal_distribution(mu, sigma, int(c / mu) - 1)
     elif type_distribution == '2':
-        return create_normal_distribution(mu, sigma, int(c / mu))
+        return create_uniform_distribution(mu, sigma, int(c / mu))

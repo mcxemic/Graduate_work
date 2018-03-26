@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, SelectField
+from wtforms import IntegerField, SelectField, FloatField
 from wtforms.validators import NumberRange, InputRequired
 
 
@@ -9,16 +9,16 @@ class OptionForm(FlaskForm):
     P_M = IntegerField('M ')
     P_L = IntegerField('L ')
     P_XL = IntegerField('XL')
-    Q_XS = IntegerField('XS')
-    Q_S = IntegerField('S ')
-    Q_M = IntegerField('M ')
-    Q_L = IntegerField('L ')
-    Q_XL = IntegerField('XL')
-    H_XS = IntegerField('XS')
-    H_S = IntegerField('S ')
-    H_M = IntegerField('M ')
-    H_L = IntegerField('L ')
-    H_XL = IntegerField('XL')
+    Q_XS = FloatField('XS')
+    Q_S = FloatField('S ')
+    Q_M = FloatField('M ')
+    Q_L = FloatField('L ')
+    Q_XL = FloatField('XL')
+    H_XS = FloatField('XS')
+    H_S = FloatField('S ')
+    H_M = FloatField('M ')
+    H_L = FloatField('L ')
+    H_XL = FloatField('XL')
     C = IntegerField('C ')
 
 class InterfaceForm(FlaskForm):

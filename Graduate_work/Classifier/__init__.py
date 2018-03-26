@@ -104,7 +104,7 @@ def create_tasks(form):
     # Todo Проверить тип, вызвать и сохранить идентичность или нет
     print(dur_P, real_p, scat_Q, real_q)
     sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C)
-    # write_to_task_table(form, set_id, productivity_factors, devises_amount, sets)
+    write_to_task_table(form, set_id, productivity_factors, devises_amount, sets)
 
 
 def create_productivity_factor(length):
@@ -137,7 +137,7 @@ def get_factors_from_forms(form):
     import json
 
     classifiers = db.session.query(Classifier).order_by(Classifier.id)[-1]
-    print('Classifiers ', classifiersq)
+    print('Classifiers ', classifiers)
     scat_Q = return_classifier_value(form.Q.data, json.loads(classifiers.scattering_q))
     dur_P = return_classifier_value(form.P.data, json.loads(classifiers.duration_p))
     dis_h = return_classifier_value(form.H.data, json.loads(classifiers.dispersion_h))
@@ -151,7 +151,7 @@ def write_to_task_table(form, set_id, productivity_factors, devices_amount, sets
     import json
     for i in range(form.amount_of_tasks.data):
         tsk = Task(set_id=set_id, productivity_factor=json.dumps(productivity_factors[i]),
-                   devises_amount=devices_amount, tasks=json.dumps(sets[i]))
+                   devises_amount=len(productivity_factors[i]), tasks=json.dumps(sets[i]))
         db.session.add(tsk)
         db.session.commit()
 
