@@ -19,7 +19,6 @@ class OptionForm(FlaskForm):
     H_M = FloatField('M ')
     H_L = FloatField('L ')
     H_XL = FloatField('XL')
-    C = IntegerField('C ')
 
 class InterfaceForm(FlaskForm):
     n_min = IntegerField('від')
@@ -33,6 +32,7 @@ class InterfaceForm(FlaskForm):
     amount_of_tasks = IntegerField('Кількість індивідуальних задач')
     initial_schedule = SelectField(u'Алгоритм генерації початкового розкладу', choices=[(1, 'Алгоритм 1'), (2, 'Алгоритм 2')])
     gen_algo = SelectField(u'Алгоритм генерації', choices=[(1, 'Нормальний'), (2, 'Рівномірний')])
+    C = IntegerField('C ')
 
 
     # Todo add criterion
