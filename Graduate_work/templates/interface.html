@@ -76,13 +76,10 @@
                 <label class="col-sm-2">Алгоритм генерації початкового розкладу</label>
                 <div class="col-sm-2">  {{ form.initial_schedule(class_="form-control") }} </div>
             </div>
-            <select class="custom-select" size="3">
-             <option selected value="1">One</option>
-             <option value="2">Two</option>
-             <option value="3">Three</option>
-
-
-            </select>
+             <div class="form-group">
+                <label class="col-sm-2">Допоміжні оптимізаційні задачі</label>
+                <div class="col-sm-2">  {{ form.add_opt_task(class_="form-control") }} </div>
+            </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Згенерувати задачі</button>
     </form>
    </div>
