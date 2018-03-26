@@ -47,6 +47,7 @@ def insert_in_classifier_table(duration_p, scattering_q, dispersion_h):
 def insert_in_set_table(form):
     from ..models import Set, Classifier
     from .. import db
+    from sqlalchemy import func
     sets = {'P': form.P.data, 'Q': form.Q.data, 'H': form.H.data,
             'n_min': form.n_min.data, 'n_max': form.n_max.data, 'n_step': form.n_step.data,
             'I_type': form.I_type.data, 'distribution': form.distribution.data,
@@ -94,14 +95,16 @@ def create_tasks(form):
     devises = list(range(form.n_min.data, form.n_max.data, form.n_step.data))
     scat_Q, dur_P, dis_H = get_factors_from_forms(form)
     real_p = C / dur_P
-    productivity_factors = set_of_productivity(devices=devises, type=form.I_type.data)
+    print(scat_Q, dur_P, real_p)
+    real_q = scat_Q * real_p
+    productivity_factors = set_of_productivity(devices=devises, type_task=form.I_type.data)
 
     devises_amount = len(productivity_factors)
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
     # Todo Проверить тип, вызвать и сохранить идентичность или нет
-
-    sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, scat_Q, C)
-    write_to_task_table(form, set_id, productivity_factors, devises_amount, sets)
+    print(dur_P, real_p, scat_Q, real_q)
+    sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C)
+    # write_to_task_table(form, set_id, productivity_factors, devises_amount, sets)
 
 
 def create_productivity_factor(length):
@@ -124,7 +127,7 @@ def return_classifier_value(sets, classifier):
 def set_of_productivity(devices, type_task):
     sets_of_machine = []
     for i in devices:
-        sets_of_machine.append(create_productivity_factor(type_task, i))
+        sets_of_machine.append(check_type_of_task(type_task, i))
     return sets_of_machine
 
 
@@ -134,10 +137,11 @@ def get_factors_from_forms(form):
     import json
 
     classifiers = db.session.query(Classifier).order_by(Classifier.id)[-1]
+    print('Classifiers ', classifiersq)
     scat_Q = return_classifier_value(form.Q.data, json.loads(classifiers.scattering_q))
     dur_P = return_classifier_value(form.P.data, json.loads(classifiers.duration_p))
     dis_h = return_classifier_value(form.H.data, json.loads(classifiers.dispersion_h))
-
+    print(scat_Q, dur_P, dis_h, ' clas')
     return scat_Q, dur_P, dis_h
 
 
