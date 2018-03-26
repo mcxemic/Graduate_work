@@ -17,15 +17,21 @@ def generate_sets(type_distribution, count_set, count_devices, mean_duration_P, 
     return sets
 
 
+def create_set_normal_distribution(mu, sigma, c):
+    normal = []
+    while c > mu + 2 * sigma:
+        x = create_normal_distribution(mu, sigma)
+        normal.append(x)
+        c -= x
+    return normal
+
+
 # TODO rewrite or delete
 def create_normal_distribution(mu, sigma, size=1):
     from numpy.random import normal
     x = normal(mu, sigma, size)
     if x > 0:
-        if x > mu + 2 * sigma:
-            return int(mu + 2 * sigma)
-        else:
-            return int(x)
+        return int(x)
     else:
         return 1
 
@@ -58,12 +64,13 @@ def normal_distribution(mean, deviation, size=1):
 
 def create_uniform_distribution(mu, sigma, size):
     import numpy
-    return numpy.random.uniform(low=mu - 2 * sigma, high=mu + 2 * sigma, size=size)
+    new_sigma = (12 * sigma ** 2 + 1) ** (1 / 2) - 1
+    return numpy.random.uniform(low=mu - new_sigma, high=mu + new_sigma, size=size)
 
 
 def choose_distribution(type_distribution, mu, sigma, c):
     print('type', type_distribution)
     if type_distribution == '1':
-        return normal_distribution(mu, sigma, int(c / mu) - 1)
+        return create_set_normal_distribution(mu, sigma, c)
     elif type_distribution == '2':
         return create_uniform_distribution(mu, sigma, int(c / mu))
