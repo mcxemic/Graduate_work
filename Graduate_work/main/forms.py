@@ -14,11 +14,16 @@ class OptionForm(FlaskForm):
     Q_M = FloatField('M ')
     Q_L = FloatField('L ')
     Q_XL = FloatField('XL')
-    H_XS = FloatField('XS')
-    H_S = FloatField('S ')
-    H_M = FloatField('M ')
-    H_L = FloatField('L ')
-    H_XL = FloatField('XL')
+    H_XS_to = FloatField('XS')
+    H_S_to = FloatField('S ')
+    H_M_to = FloatField('M ')
+    H_L_to = FloatField('L ')
+    H_XL_to = FloatField('XL')
+    H_XS_from = FloatField('XS')
+    H_S_from = FloatField('S ')
+    H_M_from = FloatField('M ')
+    H_L_from = FloatField('L ')
+    H_XL_from = FloatField('XL')
 
 
 class InterfaceForm(FlaskForm):
@@ -33,4 +38,5 @@ class InterfaceForm(FlaskForm):
     amount_of_tasks = IntegerField('Кількість індивідуальних задач')
     initial_schedule = SelectField(u'Алгоритм генерації початкового розкладу', choices=[(1, 'Алгоритм 1'), (2, 'Алгоритм 2')])
     gen_algo = SelectField(u'Алгоритм генерації', choices=[(1, 'Нормальний'), (2, 'Рівномірний')])
+    add_opt_task = SelectField(u'Допоміжні оптимізаційні задачі', choices=[(1, '1'), (2, '2')])
     C = IntegerField('C ')
