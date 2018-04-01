@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect
 
-from . import main
+from . import *
 from .forms import *
 from ..Classifier import *
 

@@ -88,16 +88,18 @@ def create_tasks(form):
     from ..main import generate_sets
 
     # Todo Проверить закон распределение и передать
-    print("Create task  ")
-    # C = form.C.data
-    C = 100000
 
-    devises = list(range(form.n_min.data, form.n_max.data, form.n_step.data))
+    if form.C.data != None:
+        C = form.C.data
+    else:
+        C = 100000
+
+    devises = get_devices(form)
     scat_Q, dur_P, dis_H = get_factors_from_forms(form)
     real_p = C / dur_P
     print(scat_Q, dur_P, real_p)
     real_q = scat_Q * real_p
-    productivity_factors = set_of_productivity(devices=devises, type_task=form.I_type.data)
+    productivity_factors = set_of_productivity(devices=devises, type_task=form.I_type.data, coef=dis_H)
 
     devises_amount = len(productivity_factors)
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
@@ -105,10 +107,6 @@ def create_tasks(form):
     print(dur_P, real_p, scat_Q, real_q)
     sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C)
     write_to_task_table(form, set_id, productivity_factors, devises_amount, sets)
-
-
-def create_productivity_factor(length):
-    return length * [1]
 
 
 def return_classifier_value(sets, classifier):
@@ -124,10 +122,13 @@ def return_classifier_value(sets, classifier):
         return classifier.get('XL')
 
 
-def set_of_productivity(devices, type_task):
+def get_devices(form): return list(range(form.n_min.data, form.n_max.data, form.n_step.data))
+
+
+def set_of_productivity(devices, type_task, coef):
     sets_of_machine = []
     for i in devices:
-        sets_of_machine.append(check_type_of_task(type_task, i))
+        sets_of_machine.append(check_type_of_task(type_task, i, coef))
     return sets_of_machine
 
 
@@ -156,11 +157,19 @@ def write_to_task_table(form, set_id, productivity_factors, devices_amount, sets
         db.session.commit()
 
 
-def check_type_of_task(type_task, device_amount):
+def check_type_of_task(type_task, device_amount, coeff=None):
     if type_task == '1':
         productivity_factors = device_amount * [1]
         return productivity_factors
     elif type_task == '2':
+        productivity_factors = get_productivity_factors(device_amount, coeff)
+        return productivity_factors
+    else:
         pass
-    elif type_task == '3':
-        pass
+
+
+def get_productivity_factors(length, coef):
+    productive_factors = [1]
+    for i in range(length - 1):
+        productive_factors.append(productive_factors[-1] * coef)
+    return productive_factors

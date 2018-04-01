@@ -17,25 +17,6 @@ def generate_sets(type_distribution, count_set, count_devices, mean_duration_P, 
     return sets
 
 
-def create_set_normal_distribution(mu, sigma, c):
-    normal = []
-    while c > mu + 2 * sigma:
-        x = create_normal_distribution(mu, sigma)
-        normal.append(x)
-        c -= x
-    return normal
-
-
-# TODO rewrite or delete
-def create_normal_distribution(mu, sigma, size=1):
-    from numpy.random import normal
-    x = normal(mu, sigma, size)
-    if x > 0:
-        return int(x)
-    else:
-        return 1
-
-
 def create_task_for_multiply_machine(type_distribution, count_devices, mu, sigma, C):
     sets_of_machine = []
     for i in range(count_devices):
@@ -54,23 +35,37 @@ def create_task_for_one_machine(type_distribution, mu, sigma, c):
     return machine
 
 
-def normal_distribution(mean, deviation, size=1):
-    import numpy as np
-    print(mean, deviation, size, ' normal distr')
-    mac = np.random.normal(mean, deviation, size)
+def create_set_distribution(method, mu, sigma, c):
+    normal = []
+    while c > mu + 2 * sigma:
+        x = method(mu, sigma)
+        normal.append(x)
+        c -= x
+    normal.append(c)
+    return normal
 
-    return mac
+
+def create_normal_distribution(mu, sigma, size=1):
+    from numpy.random import normal
+    x = normal(mu, sigma, size)
+    if x > 0:
+        return int(x)
+    else:
+        return 1
 
 
-def create_uniform_distribution(mu, sigma, size):
+def create_uniform_distribution(mu, sigma, size=1):
     import numpy
-    new_sigma = (12 * sigma ** 2 + 1) ** (1 / 2) - 1
-    return numpy.random.uniform(low=mu - new_sigma, high=mu + new_sigma, size=size)
+    new_sigma = ((12 * sigma ** 2 + 1) ** (1 / 2) - 1) / 2
+    x = numpy.random.uniform(low=mu - new_sigma, high=mu + new_sigma, size=size)
+    if x > 0:
+        return int(x)
+    else:
+        return 1
 
 
 def choose_distribution(type_distribution, mu, sigma, c):
-    print('type', type_distribution)
     if type_distribution == '1':
-        return create_set_normal_distribution(mu, sigma, c)
+        return create_set_distribution(create_normal_distribution, mu, sigma, c)
     elif type_distribution == '2':
-        return create_uniform_distribution(mu, sigma, int(c / mu))
+        return create_set_distribution(create_uniform_distribution, mu, sigma, c)
