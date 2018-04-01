@@ -46,3 +46,11 @@ class Task(db.Model):
     tasks = db.Column(db.JSON)
 
     # TODO __repr__
+
+
+class Algorithm(db.Model):
+    __tablename__ = 'algorithms'
+
+    id = db.Column(db.Integer, primary_key=True)
+    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
+    initial_timetable = db.Column(db.JSON)

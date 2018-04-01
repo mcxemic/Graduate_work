@@ -77,8 +77,18 @@ def output_from_task_table():
 def create_list_from_form(form):
     duration_p = [form.P_XS.data, form.P_S.data, form.P_M.data, form.P_L.data, form.P_XL.data]
     scattering_q = [form.Q_XS.data, form.Q_S.data, form.Q_M.data, form.Q_L.data, form.Q_XL.data]
-    dispersion_h = [form.H_XS.data, form.H_S.data, form.H_M.data, form.H_L.data, form.H_XL.data]
+    dispersion_h = generate_H_from_form(form)
     return duration_p, scattering_q, dispersion_h
+
+
+def generate_H_from_form(form):
+    import random as rd
+    h = [round(rd.uniform(form.H_XS_from.data, form.H_XS_to.data), 3),
+         round(rd.uniform(form.H_S_from.data, form.H_S_to.data), 3),
+         round(rd.uniform(form.H_M_from.data, form.H_M_to.data), 3),
+         round(rd.uniform(form.H_L_from.data, form.H_L_to.data), 3),
+         round(rd.uniform(form.H_XL_from.data, form.H_XL_to.data), 3)]
+    return h
 
 
 def create_tasks(form):
