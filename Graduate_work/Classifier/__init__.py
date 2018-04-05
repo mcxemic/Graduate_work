@@ -1,5 +1,6 @@
 from . import *
 from . import views
+from ..main import algorithms
 
 
 def list_from_object(duration_p, scattering_q, dispersion_h):
@@ -111,12 +112,15 @@ def create_tasks(form):
     real_q = scat_Q * real_p
     productivity_factors = set_of_productivity(devices=devises, type_task=form.I_type.data, coef=dis_H)
 
-    devises_amount = len(productivity_factors)
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
     # Todo Проверить тип, вызвать и сохранить идентичность или нет
     print(dur_P, real_p, scat_Q, real_q)
     sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C)
-    write_to_task_table(form, set_id, productivity_factors, devises_amount, sets)
+    write_to_task_table(form, set_id, productivity_factors, sets)
+    # algorithms.run_algorithms(productivity_factors,sets,set_id,form.initial_schedule.data)
+
+
+
 
 
 def return_classifier_value(sets, classifier):
@@ -156,7 +160,7 @@ def get_factors_from_forms(form):
     return scat_Q, dur_P, dis_h
 
 
-def write_to_task_table(form, set_id, productivity_factors, devices_amount, sets):
+def write_to_task_table(form, set_id, productivity_factors, sets):
     from ..models import Task
     from .. import db
     import json
@@ -165,6 +169,8 @@ def write_to_task_table(form, set_id, productivity_factors, devices_amount, sets
                    devises_amount=len(productivity_factors[i]), tasks=json.dumps(sets[i]))
         db.session.add(tsk)
         db.session.commit()
+        task_id = db.session.query(Task).order_by(Task.id)[-1].id
+        algorithms.run_algorithms(productivity_factors, sets, task_id, form.initial_schedule.data)
 
 
 def check_type_of_task(type_task, device_amount, coeff=None):
