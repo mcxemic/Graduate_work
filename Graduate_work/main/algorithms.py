@@ -1,18 +1,22 @@
 import numpy as np
 
 
-def calculate_first_table(p, k):
+def calculate_task_table_from_productivity_factors(tasks_lists, productivity_factors):
     # p - count of task. k - vector productivity factors
     # transform two vector to matrix with task * productivity
-    table = []
-    for j in range(len(k)):
+    output_table = []
+    productivity_factors.sort()
+    tasks_lists.sort()
+    print(productivity_factors, tasks_lists)
+
+    for j in range(len(productivity_factors)):
         row = []
-        for i in range(len(p)):
-            row.append(p[i] * k[j])
-        table.append(row)
-    table = np.array(table)
-    table = table.T
-    return table
+        for i in range(len(tasks_lists)):
+            row.append(tasks_lists[i] * productivity_factors[j])
+        output_table.append(row)
+    output_table = np.array(output_table)
+    output_table = output_table.T
+    return output_table
 
 
 def calculate_second_table(table):
@@ -26,40 +30,35 @@ def calculate_second_table(table):
     return newtable
 
 
-def A1(m, n, table, RealC):
-    print('\n----------------------------------------------------------------')
-    print('Algorithm 1')
-    print("m ", m, "n ", n, "table ", table, "RealC", RealC)
-    allmachine = []
-    for i in range(0, m):
+def A1(count_of_machine, count_of_tasks, task_table_with_coefficient):
+    task_of_machine = []
+    list_of_used_time_of_every_machine = list(count_of_machine * [0])
+    # create dict for every machine in task
+    for _ in range(0, count_of_machine):
         machine = {}
-        allmachine.append(machine)
-
-    for j in range(n):
-        index = RealC.index(min(RealC))
-        RealC[index] += np.asscalar(table[j][index])
-        allmachine[index].update({j + 1: np.asscalar(table[j][index])})
-
-    print(type(allmachine))
-    return allmachine
+        task_of_machine.append(machine)
+    # distribute tasks for every machine with magic algorithms from the Heaven
+    for j in range(count_of_tasks):
+        index = list_of_used_time_of_every_machine.index(min(list_of_used_time_of_every_machine))
+        list_of_used_time_of_every_machine[index] += np.asscalar(task_table_with_coefficient[j][index])
+        task_of_machine[index].update({j + 1: np.asscalar(task_table_with_coefficient[j][index])})
+    return task_of_machine
 
 
 def A2(m, n, table, RealC, f, p):
-    print('\n----------------------------------------------------------------')
-    print('Algorithm 2')
-    allmachine = []
+    task_of_machine = []
     for i in range(0, m):
         machine = {}
-        allmachine.append(machine)
+        task_of_machine.append(machine)
 
     for j in range(0, n):
         index = f.index(max(f))  # index with max f
         RealC[index] += table[j][index]  # fill C
         f[index] -= p[j]
-        allmachine[index].update({j + 1: table[j][index]})
-    # output_result_algorithm(allmachine)
+        task_of_machine[index].update({j + 1: table[j][index]})
+    # output_result_algorithm(task_of_machine)
 
-    return allmachine
+    return task_of_machine
 
 
 def optimization2(k, e, sigma, C):
@@ -116,9 +115,10 @@ def run_algorithms(productivity_factors, sets, set_id, type_algorithm):
     schedules = []
     if type_algorithm == '1':
         for i in range(len(sets)):
-            table = calculate_first_table(sets[i], productivity_factors[i])
+            task_table_with_coefficient = calculate_task_table_from_productivity_factors(sets[i],
+                                                                                         productivity_factors[i])
             schedules.append(
-                A1(len(productivity_factors[i]), len(sets[i]), table, list(len(productivity_factors[i]) * [0])))
+                A1(len(productivity_factors[i]), len(sets[i]), task_table_with_coefficient))
 
     # Get data from DB
 
