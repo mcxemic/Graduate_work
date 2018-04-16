@@ -16,73 +16,112 @@
 <div class="container">
     <form class="form-horizontal" method="POST">
         <legend><h2>Пристрої</h2></legend>
-        <div class="form-group">
-            <label class="col-sm-2 col-form-label">Тип</label>
-            <div class="col-sm-2">  {{ form.I_type(class_="form-control") }} </div>
+        <div class="form-group {% if form.I_type.errors %} has-error {% endif %}">
+            {{form.I_type.label(class="col-sm-2")}}
+            <div class="col-sm-2">
+                {{form.I_type(class="form-control")}}
+            </div>
+            <p class="col-sm-5 help-block">
+            {{ form.I_type.errors[0] }}
         </div>
         <div class="row">
-             <label class="col-sm-2">Кількість</label>
-             <label class="col-sm-2">від</label>
-            <div class="col-sm-1">{{ form.n_min(class_="form-control") }}</div>
-            <label class="col-sm-1">до</label>
-            <div class="col-sm-1">{{ form.n_max(class_="form-control") }}</div>
-            <label class="col-sm-1">крок</label>
-            <div class="col-sm-1" style="text-align: left">{{ form.n_step(class_="form-control") }}</div>
-            <div class="col-sm-3"></div>
+            <label class="col-sm-2">Кількість</label>
+            <div class=" {% if form.n_min.errors %} has-error {% endif %}">
+                {{form.n_min.label(class="col-sm-1")}}
+                <div class="col-sm-1">
+                    {{form.n_min(class="form-control")}}
+                </div>
+            </div>
+            <div class=" {% if form.n_max.errors %} has-error {% endif %}">
+                {{form.n_max.label(class="col-sm-1")}}
+                <div class="col-sm-1">
+                    {{form.n_max(class="form-control")}}
+                </div>
+            </div>
+            <div class=" {% if form.n_step.errors %} has-error {% endif %}">
+                {{form.n_step.label(class="col-sm-1")}}
+                <div class="col-sm-1">
+                    {{form.n_step(class="form-control")}}
+                </div>
+            </div>
         </div>
         <br>
-        <script type="text/javascript">
-            function CheckBoxChanged(checkbox)
-            {
-                if(checkbox.checked==true)
-                document.getElementById('<%= TextBox1.ClientID %>').disabled = false;
-                else
-                document.getElementById('<%= TextBox1.ClientID %>').disabled = true;
-            }
-        </script>
-
-            <legend><h2>Завдання</h2></legend>
-             <div class="form-group">
-                <label class="col-sm-2">C*</label>
-                <div class="col-sm-2">  {{ form.C(class_="form-control") }} </div>
-             </div>
-              <div class="form-group">
-                <label class="col-sm-2">P</label>
-                <div class="col-sm-2">  {{ form.P(class_="form-control") }} </div>
+        <legend><h2>Завдання</h2></legend>
+        <div class="form-group {% if form.C.errors %} has-error {% endif %}">
+            {{form.C.label(class="col-sm-2")}}
+            <div class="col-sm-2">
+                {{form.C(class="form-control")}}
             </div>
-              <div class="form-group">
-                <label class="col-sm-2">Q</label>
-                <div class="col-sm-2">  {{ form.Q(class_="form-control") }} </div>
+{#            <p class="col-sm-5 help-block">#}
+{#            {{ form.C.errors[0] }}#}
+        </div>
+        <div class="form-group {% if form.P.errors %} has-error {% endif %}">
+            {{form.P.label(class="col-sm-2")}}
+            <div class="col-sm-2">
+                {{form.P(class="form-control")}}
             </div>
-              <div class="form-group">
-                <label class="col-sm-2">H</label>
-                <div  class="col-sm-2">  {{ form.Q(class_="form-control") }} </div>
+{#            <p class="col-sm-5 help-block">#}
+{#            {{ form.P.errors[0] }}#}
+        </div>
+        <div class="form-group {% if form.H.errors %} has-error {% endif %}">
+            {{form.H.label(class="col-sm-2")}}
+            <div class="col-sm-2">
+                {{form.H(class="form-control")}}
             </div>
-            <div class="form-group">
-                <label class="col-sm-2">Закон розподілу</label>
-                <div class="col-sm-2">  {{ form.distribution(class_="form-control") }} </div>
+{#            <p class="col-sm-5 help-block">#}
+{#            {{ form.H.errors[0] }}#}
+        </div>
+        <div class="form-group {% if form.Q.errors %} has-error {% endif %}">
+            {{form.Q.label(class="col-sm-2")}}
+            <div class="col-sm-2">
+                {{form.Q(class="form-control")}}
             </div>
-            <div class="form-group">
-                <label class="col-sm-2">Кількість індивідуальних задач</label>
-                <div class="col-sm-2">{{ form.amount_of_tasks(class_="form-control") }}</div>
+{#            <p class="col-sm-5 help-block">#}
+{#            {{ form.Q.errors[0] }}#}
+        </div>
+        <div class="form-group {% if form.distribution.errors %} has-error {% endif %}">
+            {{form.distribution.label(class="col-sm-2")}}
+            <div class="col-sm-2">
+                {{form.distribution(class="form-control")}}
             </div>
-            <div class="form-group">
-                <label class="col-sm-2">Алгоритм генерації</label>
-                <div class="col-sm-2">  {{ form.gen_algo(class_="form-control") }} </div>
+{#            <p class="col-sm-5 help-block">#}
+{#            {{ form.distribution.errors[0] }}#}
+        </div>
+        <div class="form-group {% if form.amount_of_tasks.errors %} has-error {% endif %}">
+            {{form.amount_of_tasks.label(class="col-sm-2")}}
+            <div class="col-sm-2">
+                {{form.amount_of_tasks(class="form-control")}}
             </div>
-
-            <legend><h2>Критерії</h2></legend>
-             <div class="form-group">
-                <label class="col-sm-2">Алгоритм генерації початкового розкладу</label>
-                <div class="col-sm-2">  {{ form.initial_schedule(class_="form-control") }} </div>
+{#            <p class="col-sm-5 help-block">#}
+{#            {{ form.amount_of_tasks.errors[0] }}#}
+        </div>
+        <div class="form-group {% if form.gen_algo.errors %} has-error {% endif %}">
+            {{form.gen_algo.label(class="col-sm-2")}}
+            <div class="col-sm-2">
+                {{form.gen_algo(class="form-control")}}
             </div>
-             <div class="form-group">
-                <label class="col-sm-2">Допоміжні оптимізаційні задачі</label>
-                <div class="col-sm-2">  {{ form.add_opt_task(class_="form-control") }} </div>
+{#            <p class="col-sm-5 help-block">#}
+{#            {{ form.gen_algo.errors[0] }}#}
+        </div>
+        <legend><h2>Критерії</h2></legend>
+        <div class="form-group {% if form.initial_schedule.errors %} has-error {% endif %}">
+            {{form.initial_schedule.label(class="col-sm-2")}}
+            <div class="col-sm-2">
+                {{form.initial_schedule(class="form-control")}}
             </div>
+{#            <p class="col-sm-5 help-block">#}
+{#            {{ form.initial_schedule.errors[0] }}#}
+        </div>
+        <div class="form-group {% if form.add_opt_task.errors %} has-error {% endif %}">
+            {{form.add_opt_task.label(class="col-sm-2")}}
+            <div class="col-sm-2">
+                {{form.add_opt_task(class="form-control")}}
+            </div>
+{#            <p class="col-sm-5 help-block">#}
+{#            {{ form.add_opt_task.errors[0] }}#}
+        </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Згенерувати задачі</button>
     </form>
    </div>
 <a href="options">options</a>
-
 {% endblock %}

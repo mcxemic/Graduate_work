@@ -1,10 +1,4 @@
-body {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #eee;
-}
 
-.textlabel{
-margin-right: 50px;
-color: blue;
+.label {
+    font-weight: normal !important;
 }

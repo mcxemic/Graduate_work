@@ -7,7 +7,8 @@ from Graduate_work.models import Classifier, Set, Task
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
-
+app.config['CSRF_ENABLED'] = True
+app.config['SECRET_KEY'] = 'rahasiabesar'
 
 @app.shell_context_processor
 def make_shell_context():
