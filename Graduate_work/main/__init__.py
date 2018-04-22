@@ -19,7 +19,7 @@ def generate_sets(type_distribution, count_set, count_devices, mean_duration_P, 
 
 def create_task_for_multiply_machine(type_distribution, count_devices, mu, sigma, C):
     sets_of_machine = []
-    for i in range(count_devices):
+    for _ in range(count_devices):
         sets_of_machine.extend(create_task_for_one_machine(type_distribution, mu, sigma, C))
     sets_of_machine.sort()
     return sets_of_machine

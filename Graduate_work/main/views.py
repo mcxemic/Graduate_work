@@ -4,11 +4,12 @@ from . import *
 from .forms import *
 from ..Classifier import *
 
+
 @main.route('/interface', methods=['GET', 'POST'])
 def interface():
     # Todo записать в таблицу данные с формы
     form = InterfaceForm()
-    if request.method == 'POST' & form.validate_on_submit():  # TODO check why form is not valid
+    if request.method == 'POST':  # & form.validate_on_submit():  # TODO check why form is not valid
         insert_in_set_table(form)
         create_tasks(form)
         return redirect('/')

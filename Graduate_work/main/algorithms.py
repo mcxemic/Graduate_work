@@ -47,7 +47,7 @@ def A1(count_of_machine, count_of_tasks, task_table_with_coefficient):
 
 def A2(m, n, table, RealC, f, p):
     task_of_machine = []
-    for i in range(0, m):
+    for _ in range(0, m):
         machine = {}
         task_of_machine.append(machine)
 
@@ -110,7 +110,7 @@ def optimization1(sigma, e, k, C):
     return x, FirstT
 
 
-def run_algorithms(productivity_factors, sets, set_id, type_algorithm):
+def run_algorithms(type_of_algorithm, productivity_factors, sets, set_id, type_algorithm):
     print("productivity ", productivity_factors, "sets ", sets)
     schedules = []
     if type_algorithm == '1':
