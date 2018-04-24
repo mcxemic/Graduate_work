@@ -68,10 +68,11 @@ def output_from_classifier_table():
 
 
 def output_from_task_table():
-    from ..models import Task, Set
+    from ..models import Task, Set, Algorithm
     out_set = Set.query.all()
     out_task = Task.query.all()
-    return out_set, out_task
+    out_algo = Algorithm.query.all()
+    return out_set, out_task, out_algo
 
 
 def create_list_from_form(form):

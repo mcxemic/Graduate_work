@@ -38,6 +38,6 @@ class InterfaceForm(FlaskForm):
     distribution = SelectField(u'Закон розподілу', choices=[(1, 'Нормальний'), (2, 'Рівномірний')])
     amount_of_tasks = IntegerField('Кількість індивідуальних задач', validators=[InputRequired()])
     initial_schedule = SelectField(u'Алгоритм генерації початкового розкладу', choices=[(1, 'Алгоритм 1'), (2, 'Алгоритм 2')])
-    gen_algo = SelectField(u'Алгоритм генерації', choices=[(1, 'Нормальний'), (2, 'Рівномірний')])
+    gen_algo = SelectField(u'Алгоритм генерації', choices=[(1, 'Рівномірний'), (2, 'Нерівномірний')])
     add_opt_task = SelectField(u'Допоміжні оптимізаційні задачі', choices=[(1, '1'), (2, '2')])
-    C = IntegerField('C ')
+    C = IntegerField('C *')
