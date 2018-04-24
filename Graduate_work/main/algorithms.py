@@ -45,16 +45,18 @@ def A1(count_of_machine, count_of_tasks, task_table_with_coefficient):
     return task_of_machine
 
 
-def A2(m, n, table, RealC, f, p):
+def A2(count_of_machine, count_of_task, table, tasks_list, C_foreach_machine):
     task_of_machine = []
-    for _ in range(0, m):
+    list_of_used_time_of_every_machine = list(count_of_machine * [0])
+
+    for _ in range(0, count_of_machine):
         machine = {}
         task_of_machine.append(machine)
 
-    for j in range(0, n):
-        index = f.index(max(f))  # index with max f
-        RealC[index] += table[j][index]  # fill C
-        f[index] -= p[j]
+    for j in range(0, count_of_task):
+        index = C_foreach_machine.index(max(C_foreach_machine))  # index with max f
+        list_of_used_time_of_every_machine[index] += table[j][index]  # fill C
+        C_foreach_machine[index] -= tasks_list[j]
         task_of_machine[index].update({j + 1: table[j][index]})
     # output_result_algorithm(task_of_machine)
 
@@ -110,15 +112,23 @@ def optimization1(sigma, e, k, C):
     return x, FirstT
 
 
-def run_algorithms(type_of_algorithm, productivity_factors, sets, set_id, type_algorithm):
-    print("productivity ", productivity_factors, "sets ", sets)
+def run_algorithms(type_of_algorithm, productivity_factors, sets, set_id, C):
     schedules = []
-    if type_algorithm == '1':
+
+    if type_of_algorithm == '1':
         for i in range(len(sets)):
             task_table_with_coefficient = calculate_task_table_from_productivity_factors(sets[i],
                                                                                          productivity_factors[i])
             schedules.append(
                 A1(len(productivity_factors[i]), len(sets[i]), task_table_with_coefficient))
+    else:
+        for i in range(len((sets))):
+            task_table_with_coefficient = calculate_task_table_from_productivity_factors(sets[i],
+                                                                                         productivity_factors[i])
+            C_foreach_machine = list(map(lambda i: C / i, productivity_factors))
+            schedules.append(
+                A2(len(productivity_factors[i]), len(sets[i]),
+                   task_table_with_coefficient, sets[i], C_foreach_machine))
 
     # Get data from DB
 
