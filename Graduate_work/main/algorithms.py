@@ -7,6 +7,7 @@ def calculate_task_table_from_productivity_factors(tasks_lists, productivity_fac
     output_table = []
     productivity_factors.sort()
     tasks_lists.sort()
+    tasks_lists.reverse()
     print(productivity_factors, tasks_lists)
 
     for j in range(len(productivity_factors)):
@@ -29,6 +30,9 @@ def calculate_second_table(table):
     newtable = np.array(newtable)
     return newtable
 
+def output_result_algorithm(result):
+    for i in enumerate(result):
+        print('Machine ', i[0] + 1, i[1])
 
 def A1(count_of_machine, count_of_tasks, task_table_with_coefficient):
     task_of_machine = []
@@ -42,6 +46,7 @@ def A1(count_of_machine, count_of_tasks, task_table_with_coefficient):
         index = list_of_used_time_of_every_machine.index(min(list_of_used_time_of_every_machine))
         list_of_used_time_of_every_machine[index] += np.asscalar(task_table_with_coefficient[j][index])
         task_of_machine[index].update({j + 1: np.asscalar(task_table_with_coefficient[j][index])})
+    output_result_algorithm(task_of_machine)
     return task_of_machine
 
 
