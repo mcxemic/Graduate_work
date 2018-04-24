@@ -51,8 +51,8 @@ def insert_in_set_table(form):
     sets = {'P': form.P.data, 'Q': form.Q.data, 'H': form.H.data,
             'n_min': form.n_min.data, 'n_max': form.n_max.data, 'n_step': form.n_step.data,
             'I_type': form.I_type.data, 'distribution': form.distribution.data,
-            'amount_of_tasks': form.amount_of_tasks.data, 'gen_algo': form.gen_algo.data}
-    print("sets", sets)
+            'amount_of_tasks': form.amount_of_tasks.data, 'gen_algo': form.initial_schedule.data}
+
     st = Set(size_q=sets['Q'], size_h=sets['H'], size_p=sets['P'],
              classifier_id=db.session.query(func.max(Classifier.id)),
              type_device=sets['I_type'], tasks_count=sets['amount_of_tasks'],
@@ -114,7 +114,8 @@ def create_tasks(form):
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
     # Todo Проверить тип, вызвать и сохранить идентичность или нет
     type_of_algorithm_initial_schedule = get_type_of_algorithm(form)
-    sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C)
+    sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C,
+                         form.gen_algo.data)
     write_to_task_table(form=form, set_id=set_id, productivity_factors=productivity_factors, sets=sets,
                         type_of_algorithm=type_of_algorithm_initial_schedule, C=C)
     # algorithms.run_algorithms(productivity_factors,sets,set_id,form.initial_schedule.data)
