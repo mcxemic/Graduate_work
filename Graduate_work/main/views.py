@@ -23,9 +23,9 @@ def index():
 
 @main.route('/result_task', methods=['GET'])
 def result_task():
-    option_set, option_task = output_from_task_table()
+    option_set, option_task, option_algo = output_from_task_table()
 
-    return render_template("result_task.html", option_set=option_set, option_task=option_task)
+    return render_template("result_task.html", option_set=option_set, option_task=option_task,option_algo=option_algo)
 
 
 @main.route('/result_classifier', methods=['GET'])

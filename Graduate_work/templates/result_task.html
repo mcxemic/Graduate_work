@@ -35,7 +35,11 @@ tasks: {{o.tasks}}<br>
 devices: {{o.devises_amount}}<br>
 productivity: {{o.productivity_factor}}<br>
 set_id {{o.set_id}}
-{#algo: {{ o. }}#}
+{% endfor %}
+<h1>Algorithm</h1><br>
+{% for o in option_algo %}
+set_id: {{ o.set_id }}
+algo: {{o.initial_timetable}}
 <br><br>
 {% endfor %}
 </body>
