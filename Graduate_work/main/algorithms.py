@@ -125,7 +125,8 @@ def run_algorithms(type_of_algorithm, productivity_factors, sets, set_id, C):
         for i in range(len((sets))):
             task_table_with_coefficient = calculate_task_table_from_productivity_factors(sets[i],
                                                                                          productivity_factors[i])
-            C_foreach_machine = list(map(lambda i: C / i, productivity_factors))
+            print()
+            C_foreach_machine = list(map(lambda i: C / i, productivity_factors[i]))
             schedules.append(
                 A2(len(productivity_factors[i]), len(sets[i]),
                    task_table_with_coefficient, sets[i], C_foreach_machine))
