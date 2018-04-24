@@ -1,4 +1,5 @@
-from flask import render_template, request, redirect
+import os
+from flask import render_template, request, redirect, json
 
 from . import *
 from .forms import *
@@ -24,14 +25,28 @@ def index():
 @main.route('/result_task', methods=['GET'])
 def result_task():
     option_set, option_task, option_algo = output_from_task_table()
-
-    return render_template("result_task.html", option_set=option_set, option_task=option_task,option_algo=option_algo)
+    with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
+        config = json.load(f)
+    f.close()
+    return render_template('result_task.html',
+                           data=convert_task_to_dict(option_task),
+                           columns=config['tasks'],
+                           title='Індивідуальні задачі',
+                           data1=convert_set_to_dict(option_set),
+                           columns1=config['set'],
+                           title1='Вхідні дані для генерації')
 
 
 @main.route('/result_classifier', methods=['GET'])
 def result_classifier():
-    option = output_from_classifier_table()
-    return render_template("result_options.html", option=option)
+    list_classifier = output_from_classifier_table()
+    with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
+        config = json.load(f)
+    f.close()
+    return render_template('result_сlassifier.html',
+                           data=convert_classifier_to_dict(list_classifier),
+                           columns=config['classifier'],
+                           title='Значення таблиці класифікатор')
 
 
 @main.route('/options', methods=['POST', 'GET'])
@@ -56,3 +71,51 @@ def delete():
     db.session.query(Classifier).delete()
     db.session.commit()
     return render_template('deleteall.html')
+
+
+@main.route('/show_result', )
+def show_output():
+    option_set, option_task, option_algo = output_from_task_table()
+    with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
+        config = json.load(f)
+    f.close()
+    return render_template('show_result.html',
+                           data=convert_data_to_dict(option_algo),
+                           columns=config['algo'],
+                           title='Побудовані початкові розклади')
+
+
+# TODO: оптимизировать функции конвертации в таблицы и перенести в другой файл
+def convert_data_to_dict(option_algo):
+    out = []
+    for i in option_algo:
+        dic = {'id_task': i.task_id, 'initial_timetable': i.initial_timetable}
+        out.append(dic)
+    return out
+
+
+def convert_classifier_to_dict(option):
+    out = []
+    for i in option:
+        dic = {'id': i.id, 'duration_p': i.duration_p, 'scattering_q': i.scattering_q, 'dispersion_h': i.dispersion_h}
+        out.append(dic)
+    return out
+
+
+def convert_task_to_dict(option):
+    out = []
+    for i in option:
+        dic = {'id': i.id, 'set_id': i.set_id, 'productivity_factor': i.productivity_factor,
+               'devises_amount': i.devises_amount, 'tasks': i.tasks}
+        out.append(dic)
+    return out
+
+
+def convert_set_to_dict(option):
+    out = []
+    for i in option:
+        dic = {'id': i.id, 'size_p': i.size_p, 'size_q': i.size_q, 'size_h': i.size_h, 'type_device': i.type_device,
+               'tasks_count': i.tasks_count, 'distribution': i.distribution,
+               'algorithm_generation': i.algorithm_generation}
+        out.append(dic)
+    return out

@@ -1,11 +1,10 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="robots" content="noindex">
-  <title>Table </title>
+  <title>Bootstrap Table - Flask example </title>
   <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
@@ -25,47 +24,25 @@
     $(window).load(function(){
       var data = {{data|tojson}};
       var columns = {{columns|tojson}};
-      var data1 = {{data1|tojson}};
-      var columns1 = {{columns1|tojson}};
 
       $(function() {
         $('#table').bootstrapTable({
           data: data,
           columns: columns,
         });
+
       });
 
-      $(function() {
-        $('#try').bootstrapTable({
-          data: data1,
-          columns: columns1,
-        });
-      });
     });
   </script>
 </head>
 <body>
-<a href="/">Home</a>
-<a href="/result_task">Result Task</a>
-<a href="/interface">Create set</a>
-<a href="/options">Create classifier</a>
-<a href="/result_classifier">Result Classifier</a>
   <div class="container" style="padding: 10px; ">
     <h1>{{title}}</h1>
     <br/>
     <div id="toolbar"></div>
     <table
       id="table"
-      data-toggle="true"
-      data-toolbar="#toolbar"
-      data-search="true"
-      data-show-columns="true"
-      data-pagination="true"
-      data-height="500">
-    </table>
-          <h1>{{title1}}</h1>
-      <table
-      id="try"
       data-toggle="true"
       data-toolbar="#toolbar"
       data-search="true"

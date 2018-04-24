@@ -1,0 +1,107 @@
+{
+  "algo": [
+    {
+        "field": "id_task",
+        "title": "id_task",
+        "sortable": true
+    },
+    {
+        "field": "initial_timetable",
+       "title": "Initial schedule",
+       "sortable": true
+    }
+  ],
+  "tasks": [
+    {
+        "field": "id",
+        "title": "id",
+        "sortable": true
+    },
+    {
+        "field": "set_id",
+        "title": "Number of set",
+        "sortable": true
+    },
+    {
+        "field": "productivity_factor",
+        "title": "Productivity (k)",
+        "sortable": true
+    },
+    {
+        "field": "devises_amount",
+        "title": "Amount of machine (m)",
+        "sortable": true
+    },
+    {
+        "field": "tasks",
+        "title": "Tasks (p)",
+        "sortable": true
+    }
+
+   ],
+    "classifier": [
+    {
+        "field": "id",
+        "title": "id",
+        "sortable": true
+    },
+    {
+        "field": "duration_p",
+        "title": "P",
+        "sortable": true
+    },
+    {
+        "field": "scattering_q",
+        "title": "Q",
+        "sortable": true
+    },
+    {
+        "field": "dispersion_h",
+        "title": "H",
+        "sortable": true
+    }
+   ],
+    "set": [
+    {
+        "field": "id",
+        "title": "id",
+        "sortable": true
+    },
+    {
+        "field": "size_p",
+        "title": "P",
+        "sortable": true
+    },
+    {
+        "field": "size_q",
+        "title": "Q",
+        "sortable": true
+    },
+    {
+        "field": "size_h",
+        "title": "H",
+        "sortable": true
+    },
+      {
+        "field": "type_device",
+        "title": "Type of device (I)",
+        "sortable": true
+    },
+    {
+        "field": "tasks_count",
+        "title": "Amount of tasks (n)",
+        "sortable": true
+    },
+    {
+        "field": "distribution",
+        "title": "Distibution",
+        "sortable": true
+    },
+    {
+        "field": "algorithm_generation",
+        "title": "Algorithm of generation",
+        "sortable": true
+    }
+   ]
+}
+

@@ -69,6 +69,7 @@ def output_from_classifier_table():
 
 def output_from_task_table():
     from ..models import Task, Set, Algorithm
+    # Return the results represented by this Query as a list.
     out_set = Set.query.all()
     out_task = Task.query.all()
     out_algo = Algorithm.query.all()
