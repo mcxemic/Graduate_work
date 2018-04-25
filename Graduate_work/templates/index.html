@@ -2,16 +2,17 @@
 
 {% block head %}
 {{super()}}
+
 <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
 {% endblock %}
 {% block content %}
-<h1>Тема: “Система з  підтримки процесу дослідження задач теорії розкладів” </h1>
+<h1>Система з  підтримки процесу дослідження задач теорії розкладів” </h1>
 
-<li><a href="interface">Згенерувати задачу</a></li>
-<li><a href="options"> Згенерувати межі класифікатора</a></li>
-<li><a href="result_classifier">Переглянути класифікатори</a></li>
-<li><a href="result_task">Переглянути існуючі задачі</a></li>
-<li><a href="show_result">Переглянути розклади</a></li>
+<h3><a href="interface">Згенерувати задачу</a></h3>
+<h3><a href="options"> Згенерувати межі класифікатора</a></h3>
+<h3><a href="result_classifier">Переглянути класифікатори</a></h3>
+<h3><a href="result_task">Переглянути існуючі задачі</a></h3>
+<h3><a href="show_result">Переглянути розклади</a></h3>
 
 {% endblock %}
 

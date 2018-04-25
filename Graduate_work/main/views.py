@@ -37,13 +37,15 @@ def result_task():
                            title1='Вхідні дані для генерації')
 
 
+
+
 @main.route('/result_classifier', methods=['GET'])
 def result_classifier():
     list_classifier = output_from_classifier_table()
     with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
         config = json.load(f)
     f.close()
-    return render_template('result_сlassifier.html',
+    return render_template('result_classifier.html',
                            data=convert_classifier_to_dict(list_classifier),
                            columns=config['classifier'],
                            title='Значення таблиці класифікатор')
