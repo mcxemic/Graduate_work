@@ -28,7 +28,6 @@ class Set(db.Model):
     tasks_count = db.Column(db.Integer)
     criterion_device = db.Column(db.String)
     distribution = db.Column(db.String)
-    algorithm_generation = db.Column(db.String)
 
     child = db.relationship("Task")
 

@@ -101,11 +101,6 @@
         "field": "distribution",
         "title": "Distibution",
         "sortable": true
-    },
-    {
-        "field": "algorithm_generation",
-        "title": "Algorithm of generation",
-        "sortable": true
     }
    ]
 }

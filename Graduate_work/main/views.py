@@ -118,7 +118,6 @@ def convert_set_to_dict(option):
     out = []
     for i in option:
         dic = {'id': i.id, 'size_p': i.size_p, 'size_q': i.size_q, 'size_h': i.size_h, 'type_device': i.type_device,
-               'tasks_count': i.tasks_count, 'distribution': i.distribution,
-               'algorithm_generation': i.algorithm_generation}
+               'tasks_count': i.tasks_count, 'distribution': i.distribution}
         out.append(dic)
     return out

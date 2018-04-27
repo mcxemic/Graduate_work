@@ -51,12 +51,12 @@ def insert_in_set_table(form):
     sets = {'P': form.P.data, 'Q': form.Q.data, 'H': form.H.data,
             'n_min': form.n_min.data, 'n_max': form.n_max.data, 'n_step': form.n_step.data,
             'I_type': form.I_type.data, 'distribution': form.distribution.data,
-            'amount_of_tasks': form.amount_of_tasks.data, 'gen_algo': form.initial_schedule.data}
+            'amount_of_tasks': form.amount_of_tasks.data}
 
     st = Set(size_q=sets['Q'], size_h=sets['H'], size_p=sets['P'],
              classifier_id=db.session.query(func.max(Classifier.id)),
              type_device=sets['I_type'], tasks_count=sets['amount_of_tasks'],
-             distribution=sets['distribution'], algorithm_generation=sets['gen_algo'])
+             distribution=sets['distribution'])
     db.session.add(st)
     db.session.commit()
 
@@ -105,7 +105,6 @@ def create_tasks(form):
         C = form.C.data
     else:
         C = 100000
-
     devises = get_devices(form)
     scat_Q, dur_P, dis_H = get_factors_from_forms(form)
     real_p = C / dur_P
@@ -118,8 +117,7 @@ def create_tasks(form):
     type_of_algorithm_initial_schedule = get_type_of_algorithm(form)
     sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C,
                          form.gen_algo.data)
-    write_to_task_table(form=form, set_id=set_id, productivity_factors=productivity_factors, sets=sets,
-                        type_of_algorithm=type_of_algorithm_initial_schedule, C=C)
+    write_to_task_table(form=form, set_id=set_id, productivity_factors=productivity_factors, sets=sets, C=C)
     # algorithms.run_algorithms(productivity_factors,sets,set_id,form.initial_schedule.data)
 
 
