@@ -195,5 +195,5 @@ def check_type_of_task(type_task, device_amount, coeff=None):
 def get_productivity_factors(length, coef):
     productive_factors = [1]
     for i in range(length - 1):
-        productive_factors.append(productive_factors[-1] * coef)
+        productive_factors.append(round(productive_factors[-1] * coef, 2))
     return productive_factors
