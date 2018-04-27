@@ -117,7 +117,7 @@ def optimization1(sigma, e, k, C):
     return x, FirstT
 
 
-def run_algorithms(type_of_algorithm, productivity_factors, sets, set_id, C):
+def run_algorithms(productivity_factors, sets, set_id, C):
     schedules_first_alg = []
     schedules_secoond_alg = []
 

@@ -114,7 +114,6 @@ def create_tasks(form):
 
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
     # Todo Проверить тип, вызвать и сохранить идентичность или нет
-    type_of_algorithm_initial_schedule = get_type_of_algorithm(form)
     sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C,
                          form.gen_algo.data)
     write_to_task_table(form=form, set_id=set_id, productivity_factors=productivity_factors, sets=sets, C=C)
@@ -165,7 +164,7 @@ def get_factors_from_forms(form):
     return scat_Q, dur_P, dis_h
 
 
-def write_to_task_table(form, set_id, productivity_factors, sets, type_of_algorithm, C):
+def write_to_task_table(form, set_id, productivity_factors, sets, C):
     from ..models import Task
     from .. import db
     import json
@@ -176,7 +175,7 @@ def write_to_task_table(form, set_id, productivity_factors, sets, type_of_algori
         db.session.add(tsk)
         db.session.commit()
         task_id = db.session.query(Task).order_by(Task.id)[-1].id
-        algorithms.run_algorithms(type_of_algorithm, productivity_factors, sets, task_id, C)
+        algorithms.run_algorithms(productivity_factors, sets, task_id, C)
 
 
 def check_type_of_task(type_task, device_amount, coeff=None):
