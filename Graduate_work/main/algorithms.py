@@ -60,9 +60,9 @@ def A2(count_of_machine, count_of_task, table, tasks_list, C_foreach_machine):
 
     for j in range(0, count_of_task):
         index = C_foreach_machine.index(max(C_foreach_machine))  # index with max f
-        list_of_used_time_of_every_machine[index] += table[j][index]  # fill C
+        list_of_used_time_of_every_machine[index] += np.asscalar(table[j][index])  # fill C
         C_foreach_machine[index] -= tasks_list[j]
-        task_of_machine[index].update({j + 1: table[j][index]})
+        task_of_machine[index].update({j + 1: np.asscalar(table[j][index])})
     # output_result_algorithm(task_of_machine)
 
     return task_of_machine
@@ -146,9 +146,9 @@ def write_to_alorithms_table(task_id, schedule1, schedule2):
     from .. import db
     import json
     for i in range(len(schedule1)):
-        print(type(i[0]), i[0])
-        sched_JSON1 = json.dumps(schedule1(i))
-        sched_JSON2 = json.dumps(schedule2(i))
+        print('schedule ', type(schedule1[0]), schedule1[0])
+        sched_JSON1 = json.dumps(schedule1[0][i])
+        sched_JSON2 = json.dumps(schedule2[0][i])
         alg = Algorithm(task_id=task_id, initial_timetable_first_alg=sched_JSON1,
                         initial_timetable_second_alg=sched_JSON2)
         db.session.add(alg)
