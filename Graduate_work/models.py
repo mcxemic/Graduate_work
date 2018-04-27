@@ -53,4 +53,5 @@ class Algorithm(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
-    initial_timetable = db.Column(db.JSON)
+    initial_timetable_first_alg = db.Column(db.JSON)
+    initial_timetable_second_alg = db.Column(db.JSON)

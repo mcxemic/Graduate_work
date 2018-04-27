@@ -118,40 +118,38 @@ def optimization1(sigma, e, k, C):
 
 
 def run_algorithms(type_of_algorithm, productivity_factors, sets, set_id, C):
-    schedules = []
+    schedules_first_alg = []
+    schedules_secoond_alg = []
 
-    if type_of_algorithm == '1':
-        for i in range(len(sets)):
-            task_table_with_coefficient = calculate_task_table_from_productivity_factors(sets[i],
+    for i in range(len(sets)):
+        task_table_with_coefficient = calculate_task_table_from_productivity_factors(sets[i],
                                                                                          productivity_factors[i])
-            schedules.append(
+        schedules_first_alg.append(
                 A1(len(productivity_factors[i]), len(sets[i]), task_table_with_coefficient))
-    else:
-        for i in range(len((sets))):
-            task_table_with_coefficient = calculate_task_table_from_productivity_factors(sets[i],
+
+    for i in range(len((sets))):
+        task_table_with_coefficient = calculate_task_table_from_productivity_factors(sets[i],
                                                                                          productivity_factors[i])
-            print()
-            C_foreach_machine = list(map(lambda i: C / i, productivity_factors[i]))
-            schedules.append(
-                A2(len(productivity_factors[i]), len(sets[i]),
+        C_foreach_machine = list(map(lambda i: C / i, productivity_factors[i]))
+        schedules_secoond_alg.append(A2(len(productivity_factors[i]), len(sets[i]),
                    task_table_with_coefficient, sets[i], C_foreach_machine))
 
     # Get data from DB
 
     # Run algorithms
     # Write to algorithm table
-    write_to_alorithms_table(set_id, schedules)
+    write_to_alorithms_table(set_id, schedules_first_alg, schedules_secoond_alg)
 
 
-def write_to_alorithms_table(task_id, schedules):
-    print("schedules", schedules)
+def write_to_alorithms_table(task_id, schedule1, schedule2):
     from ..models import Algorithm
     from .. import db
     import json
-    for i in schedules:
+    for i in range(len(schedule1)):
         print(type(i[0]), i[0])
-        sched_JSON = json.dumps(i)
-        print('JSON ', sched_JSON)
-        alg = Algorithm(task_id=task_id, initial_timetable=sched_JSON)
+        sched_JSON1 = json.dumps(schedule1(i))
+        sched_JSON2 = json.dumps(schedule2(i))
+        alg = Algorithm(task_id=task_id, initial_timetable_first_alg=sched_JSON1,
+                        initial_timetable_second_alg=sched_JSON2)
         db.session.add(alg)
         db.session.commit()
