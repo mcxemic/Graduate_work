@@ -91,7 +91,8 @@ def show_output():
 def convert_data_to_dict(option_algo):
     out = []
     for i in option_algo:
-        dic = {'id_task': i.task_id, 'initial_timetable': i.initial_timetable}
+        dic = {'id_task': i.task_id, 'initial_timetable_second_alg': i.initial_timetable_second_alg,
+               'initial_timetable_first_alg': i.initial_timetable_first_alg}
         out.append(dic)
     return out
 

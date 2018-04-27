@@ -6,9 +6,14 @@
         "sortable": true
     },
     {
-        "field": "initial_timetable",
-       "title": "Initial schedule",
-       "sortable": true
+        "field": "initial_timetable_first_alg",
+        "title": "Algorithm 1 ",
+        "sortable": true
+    },
+    {
+        "field": "initial_timetable_second_alg",
+        "title": "Algorithm 2",
+        "sortable": true
     }
   ],
   "tasks": [
