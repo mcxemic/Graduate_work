@@ -146,9 +146,11 @@ def write_to_alorithms_table(task_id, schedule1, schedule2):
     from .. import db
     import json
     for i in range(len(schedule1)):
-        print('schedule ', type(schedule1[0]), schedule1[0])
-        sched_JSON1 = json.dumps(schedule1[0][i])
-        sched_JSON2 = json.dumps(schedule2[0][i])
+        print('schedule1  {0}   schedule {1}'.format(schedule1,schedule2))
+        print('1 len {0}, type {1}  schedule {2}'.format(len(schedule1),type(schedule1[0]), schedule1[i][0]), i)
+        print('2 len {0}, type {1}  schedule {2}'.format(len(schedule2), type(schedule2[0]), schedule2[i][0]))
+        sched_JSON1 = json.dumps(schedule1[i])
+        sched_JSON2 = json.dumps(schedule2[i])
         alg = Algorithm(task_id=task_id, initial_timetable_first_alg=sched_JSON1,
                         initial_timetable_second_alg=sched_JSON2)
         db.session.add(alg)

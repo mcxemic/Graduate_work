@@ -54,3 +54,17 @@ class Algorithm(db.Model):
     task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
     initial_timetable_first_alg = db.Column(db.JSON)
     initial_timetable_second_alg = db.Column(db.JSON)
+
+
+class Optimization(db.Model):
+    __tablename__ = 'optimization'
+
+    id = db.Column(db.Integer,primary_key=True)
+    alg_id = db.Column(db.Integer,db.ForeignKey('algorithm.id'))
+    set_id = db.Column(db.Integer, db.ForeignKey('sets.id'))
+    first_Optimization = db.Column(db.JSON)
+    first_projection = db.Column(db.Float)
+    first_lead_time = db.Column(db.Float)
+    second_Optimization = db.Column(db.JSON)
+    second_projection = db.Column(db.Float)
+    second_lead_time = db.Column(db.Float)
