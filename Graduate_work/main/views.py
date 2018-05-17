@@ -48,7 +48,7 @@ def result_classifier():
     return render_template('result_classifier.html',
                            data=convert_classifier_to_dict(list_classifier),
                            columns=config['classifier'],
-                           title='Значення таблиці класифікатор')
+                           title='Значення меж класифікатору')
 
 
 @main.route('/options', methods=['POST', 'GET'])
@@ -84,7 +84,7 @@ def show_output():
     return render_template('show_result.html',
                            data=convert_data_to_dict(option_algo),
                            columns=config['algo'],
-                           title='Побудовані початкові розклади')
+                           title='Початкові розклади')
 
 
 # TODO: оптимизировать функции конвертации в таблицы и перенести в другой файл
