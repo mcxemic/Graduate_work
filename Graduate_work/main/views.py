@@ -22,20 +22,38 @@ def index():
     return render_template("index.html")
 
 
-@main.route('/result_task', methods=['GET'])
+@main.route('/result_task', methods=['GET','POST'])
 def result_task():
-    option_set, option_task, option_algo = output_from_task_table()
-    with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
-        config = json.load(f)
-    f.close()
-    return render_template('result_task.html',
+    if request.method == 'GET':
+        option_set, option_task, option_algo = output_from_task_table()
+        with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
+            config = json.load(f)
+        f.close()
+        print('already GET')
+        return render_template('result_task.html',
                            data=convert_task_to_dict(option_task),
                            columns=config['tasks'],
                            title='Індивідуальні задачі',
                            data1=convert_set_to_dict(option_set),
                            columns1=config['set'],
                            title1='Вхідні дані для генерації')
-
+    else:
+        id = request.form['id']
+        from_val = request.form['from']
+        to_val = request.form['to']
+        print(id, from_val, to_val)
+        update_value(id, from_val, to_val)
+        option_set, option_task, option_algo = output_from_task_table()
+        with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
+            config = json.load(f)
+        f.close()
+        return render_template('result_task.html',
+                               data=convert_task_to_dict(option_task),
+                               columns=config['tasks'],
+                               title='Індивідуальні задачі',
+                               data1=convert_set_to_dict(option_set),
+                               columns1=config['set'],
+                               title1='Вхідні дані для генерації')
 
 
 
@@ -121,3 +139,16 @@ def convert_set_to_dict(option):
                'tasks_count': i.tasks_count, 'distribution': i.distribution}
         out.append(dic)
     return out
+
+def update_value(id,from_val,to_val):
+    # TODO end method
+    from ..models import Task
+    from .. import db
+    import json
+    tasks = Task.query.filter_by(id=int(id)).first()
+    task_list = list(json.loads(tasks.tasks))
+    print(type(task_list), task_list)
+    task_list[task_list.index(int(from_val))] = int(to_val)
+    tasks.tasks = json.dumps(task_list)
+    db.session.commit()
+    print('task list {0}'.format(task_list))

@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="robots" content="noindex">
@@ -63,6 +63,17 @@
       data-pagination="true"
       data-height="500">
     </table>
+
+   <form method="POST">
+     <label name="id">id</label>
+    <input type="number" name="id">
+     <label name="old">Old</label>
+    <input type="number"  name="from">
+     <label name="new">New</label>
+    <input type="number"  name="to">
+    <input name="Update" type="submit">
+   </form>
+
           <h1>{{title1}}</h1>
       <table
       id="try"
@@ -73,6 +84,6 @@
       data-pagination="true"
       data-height="500">
     </table>
-  </div>
+  </form>
 </body>
 </html>

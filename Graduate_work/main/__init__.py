@@ -73,3 +73,5 @@ def choose_distribution(type_distribution, mu, sigma, c):
         return create_set_distribution(create_normal_distribution, mu, sigma, c)
     elif type_distribution == '2':
         return create_set_distribution(create_uniform_distribution, mu, sigma, c)
+
+
