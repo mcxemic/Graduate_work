@@ -43,6 +43,12 @@ class Task(db.Model):
     productivity_factor = db.Column(db.JSON)
     devises_amount = db.Column(db.Integer)
     tasks = db.Column(db.JSON)
+    first_Optimization = db.Column(db.JSON)
+    first_projection = db.Column(db.Float)
+    first_lead_time = db.Column(db.Float)
+    second_Optimization = db.Column(db.JSON)
+    second_projection = db.Column(db.Float)
+    second_lead_time = db.Column(db.Float)
 
     # TODO __repr__
 
@@ -62,9 +68,4 @@ class Optimization(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     alg_id = db.Column(db.Integer,db.ForeignKey('algorithms.id'))
     task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
-    first_Optimization = db.Column(db.JSON)
-    first_projection = db.Column(db.Float)
-    first_lead_time = db.Column(db.Float)
-    second_Optimization = db.Column(db.JSON)
-    second_projection = db.Column(db.Float)
-    second_lead_time = db.Column(db.Float)
+

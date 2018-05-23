@@ -114,9 +114,10 @@ def create_tasks(form):
 
     set_id = db.session.query(Set).order_by(Set.id)[-1].id
     # Todo Проверить тип, вызвать и сохранить идентичность или нет
-    sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C,
+    for i in range(form.amount_of_tasks.data):
+        sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C,
                          form.gen_algo.data)
-    write_to_task_table(form=form, set_id=set_id, productivity_factors=productivity_factors, sets=sets, C=C)
+        write_to_task_table(form=form, set_id=set_id, productivity_factors=productivity_factors, sets=sets, C=C)
     # algorithms.run_algorithms(productivity_factors,sets,set_id,form.initial_schedule.data)
 
 
