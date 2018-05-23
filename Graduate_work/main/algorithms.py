@@ -30,9 +30,11 @@ def calculate_second_table(table):
     newtable = np.array(newtable)
     return newtable
 
+
 def output_result_algorithm(result):
     for i in enumerate(result):
         print('Machine ', i[0] + 1, i[1])
+
 
 def A1(count_of_machine, count_of_tasks, task_table_with_coefficient):
     task_of_machine = []
@@ -117,37 +119,51 @@ def optimization1(sigma, e, k, C):
     return x, FirstT
 
 
-def run_algorithms(productivity_factors, sets, set_id, C):
+def run_algorithms(productivity_factors, sets, task_id, C):
+    from .optimization_algorithms import get_finall_T, create
+    import time
     schedules_first_alg = []
     schedules_secoond_alg = []
 
     for i in range(len(sets)):
         task_table_with_coefficient = calculate_task_table_from_productivity_factors(sets[i],
-                                                                                         productivity_factors[i])
+                                                                                     productivity_factors[i])
         schedules_first_alg.append(
-                A1(len(productivity_factors[i]), len(sets[i]), task_table_with_coefficient))
+            A1(len(productivity_factors[i]), len(sets[i]), task_table_with_coefficient))
 
     for i in range(len((sets))):
         task_table_with_coefficient = calculate_task_table_from_productivity_factors(sets[i],
-                                                                                         productivity_factors[i])
+                                                                                     productivity_factors[i])
         C_foreach_machine = list(map(lambda i: C / i, productivity_factors[i]))
         schedules_secoond_alg.append(A2(len(productivity_factors[i]), len(sets[i]),
-                   task_table_with_coefficient, sets[i], C_foreach_machine))
+                                        task_table_with_coefficient, sets[i], C_foreach_machine))
 
     # Get data from DB
 
     # Run algorithms
     # Write to algorithm table
-    write_to_alorithms_table(set_id, schedules_first_alg, schedules_secoond_alg)
+    write_to_alorithms_table(task_id, schedules_first_alg, schedules_secoond_alg)
 
+    # create optimization
+    for i in range(len(sets)):
+        start1 = time.time()
+        final_T_first, keys1, ideal1 = get_finall_T(schedules_first_alg[i], productivity_factors[i])
+        optimizationed_schedule1,max_proj1 = create(keys1, ideal1, productivity_factors[i], final_T_first)
+        stop1 = time.time()
+        write_to_optimization_table(task_id, optimizationed_schedule1, max_proj1, stop1 - start1)
+        start2 = time.time()
+        final_T_second, keys2, ideal2 = get_finall_T(schedules_secoond_alg[i], productivity_factors[i])
+        optimizationed_schedule2,max_proj2 = create(keys2, ideal2, productivity_factors[i], final_T_second)
+        stop2 = time.time()
+        write_to_optimization_table(task_id,optimizationed_schedule2,max_proj2,stop2-start2)
 
 def write_to_alorithms_table(task_id, schedule1, schedule2):
     from ..models import Algorithm
     from .. import db
     import json
     for i in range(len(schedule1)):
-        print('schedule1  {0}   schedule {1}'.format(schedule1,schedule2))
-        print('1 len {0}, type {1}  schedule {2}'.format(len(schedule1),type(schedule1[0]), schedule1[i][0]), i)
+        print('schedule1  {0}   schedule {1}'.format(schedule1, schedule2))
+        print('1 len {0}, type {1}  schedule {2}'.format(len(schedule1), type(schedule1[0]), schedule1[i][0]), i)
         print('2 len {0}, type {1}  schedule {2}'.format(len(schedule2), type(schedule2[0]), schedule2[i][0]))
         sched_JSON1 = json.dumps(schedule1[i])
         sched_JSON2 = json.dumps(schedule2[i])
@@ -155,3 +171,15 @@ def write_to_alorithms_table(task_id, schedule1, schedule2):
                         initial_timetable_second_alg=sched_JSON2)
         db.session.add(alg)
         db.session.commit()
+
+
+def write_to_optimization_table(task_id,algorithm,projection,runtime):
+    from ..models import Algorithm,Optimization
+    import json
+    from .. import db
+
+    algo = json.dumps(algorithm)
+    alg_id = db.session.query(Algorithm).order_by(Algorithm.id)[-1].id
+    opt = Optimization(alg_id=alg_id,task_id = task_id,first_Optimization=algo,first_projection=projection,first_lead_time=runtime)
+    db.session.add(opt)
+    db.session.commit()

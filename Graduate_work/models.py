@@ -61,7 +61,7 @@ class Optimization(db.Model):
 
     id = db.Column(db.Integer,primary_key=True)
     alg_id = db.Column(db.Integer,db.ForeignKey('algorithms.id'))
-    set_id = db.Column(db.Integer, db.ForeignKey('sets.id'))
+    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
     first_Optimization = db.Column(db.JSON)
     first_projection = db.Column(db.Float)
     first_lead_time = db.Column(db.Float)

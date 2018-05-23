@@ -194,3 +194,9 @@ def get_productivity_factors(length, coef):
     for i in range(length - 1):
         productive_factors.append(round(productive_factors[-1] * coef, 2))
     return productive_factors
+
+
+def create_optimization(form):
+    from  ..models import Algorithm,Task
+
+    print('Create optimization form {0}'.format(form))
