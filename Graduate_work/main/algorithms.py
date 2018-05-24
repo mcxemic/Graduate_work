@@ -174,12 +174,14 @@ def write_to_alorithms_table(task_id, schedule1, schedule2):
 
 
 def write_to_optimization_table(task_id,algorithm,projection,runtime):
-    from ..models import Algorithm,Optimization
+    from ..models import Task
     import json
     from .. import db
 
     algo = json.dumps(algorithm)
-    alg_id = db.session.query(Algorithm).order_by(Algorithm.id)[-1].id
-    opt = Optimization(alg_id=alg_id,task_id = task_id,first_Optimization=algo,first_projection=projection,first_lead_time=runtime)
-    db.session.add(opt)
+    tsk = Task.query.filter_by(id=task_id).first()
+    tsk.first_Optimization = algo
+    tsk.first_projection = projection
+    tsk.first_lead_time = runtime
+
     db.session.commit()

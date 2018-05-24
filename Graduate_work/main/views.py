@@ -1,4 +1,5 @@
 import os
+
 from flask import render_template, request, redirect, json
 
 from . import *
@@ -13,7 +14,6 @@ def interface():
     if request.method == 'POST':  # & form.validate_on_submit():  # TODO check why form is not valid
         insert_in_set_table(form)
         create_tasks(form)
-        create_optimization(form)
         return redirect('/')
     return render_template("interface.html", form=form)
 
@@ -57,6 +57,10 @@ def result_task():
                                title1='Вхідні дані для генерації')
 
 
+@main.route('/stat', methods=['GET'])
+def create_stat():
+    query, id = output_stat()
+    return render_template('stat.html', data=query, id=id)
 
 @main.route('/result_classifier', methods=['GET'])
 def result_classifier():

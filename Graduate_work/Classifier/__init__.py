@@ -197,7 +197,11 @@ def get_productivity_factors(length, coef):
     return productive_factors
 
 
-def create_optimization(form):
-    from  ..models import Algorithm,Task
+def output_stat():
+    from sqlalchemy import func
+    from .. import db
+    from ..models import Task
+    set_id = db.session.query(Task).order_by(Task.set_id)[-1].set_id
 
-    print('Create optimization form {0}'.format(form))
+    return db.session.query(Task.set_id, Task.devises_amount, func.sum(Task.first_lead_time)).filter(
+        Task.set_id == set_id).all(), set_id
