@@ -11,7 +11,7 @@ from ..Classifier import *
 def interface():
     # Todo записать в таблицу данные с формы
     form = InterfaceForm()
-    if request.method == 'POST':  # & form.validate_on_submit():  # TODO check why form is not valid
+    if request.method == 'POST': #and form.validate_on_submit():  # TODO check why form is not valid
         insert_in_set_table(form)
         create_tasks(form)
         return redirect('/')
@@ -25,6 +25,8 @@ def index():
 
 @main.route('/result_task', methods=['GET','POST'])
 def result_task():
+    from .convert_table import convert_set_to_dict
+    from .convert_table import convert_task_to_dict
     if request.method == 'GET':
         option_set, option_task, option_algo = output_from_task_table()
         with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
@@ -57,10 +59,11 @@ def result_task():
                                title1='Вхідні дані для генерації')
 
 
-@main.route('/stat', methods=['GET'])
+@main.route('/statistic', methods=['GET'])
 def create_stat():
-    query, id = output_stat()
-    return render_template('stat.html', data=query, id=id)
+    form = StatisticForm()
+   # query, id = output_stat()
+    return render_template('statistic.html', form=form)
 
 @main.route('/result_classifier', methods=['GET'])
 def result_classifier():
@@ -68,6 +71,7 @@ def result_classifier():
     with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
         config = json.load(f)
     f.close()
+    from .convert_table import convert_classifier_to_dict
     return render_template('result_classifier.html',
                            data=convert_classifier_to_dict(list_classifier),
                            columns=config['classifier'],
@@ -77,7 +81,7 @@ def result_classifier():
 @main.route('/options', methods=['POST', 'GET'])
 def options():
     form = OptionForm()
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate_on_submit():
         json_form_data = json_from_option_form(form)
         insert_in_classifier_table(duration_p=json_form_data[0],
                                    scattering_q=json_form_data[1],
@@ -104,46 +108,13 @@ def show_output():
     with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
         config = json.load(f)
     f.close()
+    from .convert_table import convert_data_to_dict
     return render_template('show_result.html',
                            data=convert_data_to_dict(option_algo),
                            columns=config['algo'],
                            title='Початкові розклади')
 
 
-# TODO: оптимизировать функции конвертации в таблицы и перенести в другой файл
-def convert_data_to_dict(option_algo):
-    out = []
-    for i in option_algo:
-        dic = {'id_task': i.task_id, 'initial_timetable_second_alg': i.initial_timetable_second_alg,
-               'initial_timetable_first_alg': i.initial_timetable_first_alg}
-        out.append(dic)
-    return out
-
-
-def convert_classifier_to_dict(option):
-    out = []
-    for i in option:
-        dic = {'id': i.id, 'duration_p': i.duration_p, 'scattering_q': i.scattering_q, 'dispersion_h': i.dispersion_h}
-        out.append(dic)
-    return out
-
-
-def convert_task_to_dict(option):
-    out = []
-    for i in option:
-        dic = {'id': i.id, 'set_id': i.set_id, 'productivity_factor': i.productivity_factor,
-               'devises_amount': i.devises_amount, 'tasks': i.tasks}
-        out.append(dic)
-    return out
-
-
-def convert_set_to_dict(option):
-    out = []
-    for i in option:
-        dic = {'id': i.id, 'size_p': i.size_p, 'size_q': i.size_q, 'size_h': i.size_h, 'type_device': i.type_device,
-               'tasks_count': i.tasks_count, 'distribution': i.distribution}
-        out.append(dic)
-    return out
 
 def update_value(id,from_val,to_val):
     # TODO end method

@@ -21,6 +21,28 @@
     }
   </style>
 
+    <nav class="navbar navbar-default " role="navigation">
+  <div class="container-fluid">
+ <div class="navbar-header">
+ <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+ <span class="sr-only">Toggle navigation</span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+ </button>
+ <a class="navbar-brand" href="#">Переглянути задачі</a>
+ </div>
+ <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+ <ul class="nav navbar-nav">
+     <li><a href="/">Головне меню</a></li>>
+     <li><a href="/result_task">Результати генерації</a></li>
+    <li><a href="/interface">Згенерувати задачу</a></li>
+    <li><a href="/options">Створити класифікатор</a></li>
+     <li><a href="/result_classifier">Переглянути класифікатор</a></li>
+ </ul>
+ </div>
+  </div>
+</nav>
   <script type='text/javascript'>
     $(window).load(function(){
       var data = {{data|tojson}};
@@ -45,11 +67,6 @@
   </script>
 </head>
 <body>
-<a href="/">Home</a>
-<a href="/result_task">Result Task</a>
-<a href="/interface">Create set</a>
-<a href="/options">Create classifier</a>
-<a href="/result_classifier">Result Classifier</a>
   <div class="container" style="padding: 10px; ">
     <h1>{{title}}</h1>
     <br/>
@@ -65,11 +82,11 @@
     </table>
 
    <form method="POST">
-     <label name="id">id</label>
+     <label name="id">ID завдання</label>
     <input type="number" name="id">
-     <label name="old">Old</label>
+     <label name="old">Старе значення:</label>
     <input type="number"  name="from">
-     <label name="new">New</label>
+     <label name="new">Нове значення:</label>
     <input type="number"  name="to">
     <input name="Update" type="submit">
    </form>

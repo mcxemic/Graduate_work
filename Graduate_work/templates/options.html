@@ -14,89 +14,164 @@
 {% endblock %}
 
 {% block content %}
-<a href="/">Home</a>
-<a href="/result_task">Result Task</a>
-<a href="/interface">Create set</a>
-<a href="/options">Create classifier</a>
-<a href="/result_classifier">Result Classifier</a>
-<br>
+    <nav class="navbar navbar-default " role="navigation">
+  <div class="container-fluid">
+ <div class="navbar-header">
+ <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+ <span class="sr-only">Toggle navigation</span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+ </button>
+ <a class="navbar-brand" href="#">Cтворити класифікатор</a>
+ </div>
+ <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+ <ul class="nav navbar-nav">
+     <li><a href="/">Головне меню</a></li>>
+     <li><a href="/result_task">Результати генерації</a></li>
+     <li><a href="/interface">Згенерувати задачу</a></li>
+{#     <li><a href="/options">Створити класифікатор</a></li>#}
+     <li><a href="/result_classifier">Переглянути класифікатор</a></li>
+ </ul>
+ </div>
+  </div>
+</nav>
 <div class="container">
     <form method="post">
         <legend>Тривалість завдань (P)</legend>
-
+{#        {{ form.csrf_token }}#}
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">XS</label>
             <div class="col-sm-3">{{ form.P_XS(class_="form-control") }}</div>
+            {% for error in form.P_XS.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">S</label>
             <div class="col-sm-3">{{ form.P_S(class_="form-control") }}</div>
+            {% for error in form.P_S.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">M</label>
             <div class="col-sm-3">{{ form.P_M(class_="form-control") }}</div>
+            {% for error in form.P_M.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">L</label>
             <div class="col-sm-3">{{ form.P_L(class_="form-control") }}</div>
+            {% for error in form.P_L.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">XL</label>
             <div class="col-sm-3">{{ form.P_XL(class_="form-control") }}</div>
+            {% for error in form.P_XL.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <legend> Ступінь розсіювання довжин завдань (Q)</legend>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">XS</label>
             <div class="col-sm-3">{{ form.Q_XS(class_="form-control") }}</div>
+            {% for error in form.Q_XS.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">S</label>
             <div class="col-sm-3">{{ form.Q_S(class_="form-control") }}</div>
+            {% for error in form.Q_S.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">M</label>
             <div class="col-sm-3">{{ form.Q_M(class_="form-control") }}</div>
+            {% for error in form.Q_M.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">L</label>
             <div class="col-sm-3">{{ form.Q_L(class_="form-control") }}</div>
+            {% for error in form.Q_L.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">XL</label>
             <div class="col-sm-3">{{ form.Q_XL(class_="form-control") }}</div>
+            {% for error in form.Q_XL.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
 
         <legend>Cтупінь розсіювання коефіцієнтів продуктивності (H) </legend>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">XS</label>
+
             <div class="col-sm-3">{{ form.H_XS_from(class_="form-control") }}</div>
             <div class="col-sm-3">{{ form.H_XS_to(class_="form-control") }}</div>
-
+            {% for error in form.H_XS_from.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
+            {% for error in form.H_XS_to.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">S</label>
             <div class="col-sm-3">{{ form.H_S_from(class_="form-control") }}</div>
             <div class="col-sm-3">{{ form.H_S_to(class_="form-control") }}</div>
+              {% for error in form.H_S_from.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
+            {% for error in form.H_S_to.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">M</label>
             <div class="col-sm-3">{{ form.H_M_from(class_="form-control") }}</div>
             <div class="col-sm-3">{{ form.H_M_to(class_="form-control") }}</div>
+            {% for error in form.H_M_from.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
+            {% for error in form.H_M_to.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
 
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">L</label>
             <div class="col-sm-3">{{ form.H_L_from(class_="form-control") }}</div>
             <div class="col-sm-3">{{ form.H_L_to(class_="form-control") }}</div>
+            {% for error in form.H_L_from.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
+            {% for error in form.H_L_to.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
 
         </div>
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">XL</label>
             <div class="col-sm-3">{{ form.H_XL_from(class_="form-control") }}</div>
             <div class="col-sm-3">{{ form.H_XL_to(class_="form-control") }}</div>
+              {% for error in form.H_XL_from.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
+            {% for error in form.H_XL_to.errors %}
+                <li style="color:red;">{{ error }}</li>
+            {% endfor %}
 
         </div>
-
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Змінити</button>
 

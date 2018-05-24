@@ -55,7 +55,7 @@ def A1(count_of_machine, count_of_tasks, task_table_with_coefficient):
 def A2(count_of_machine, count_of_task, table, tasks_list, C_foreach_machine):
     task_of_machine = []
     list_of_used_time_of_every_machine = list(count_of_machine * [0])
-
+    #print("tasks" + tasks_list)
     for _ in range(0, count_of_machine):
         machine = {}
         task_of_machine.append(machine)
