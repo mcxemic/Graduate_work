@@ -6,39 +6,54 @@
 {% endblock %}
 
 {% block content %}
-<a href="/">Home</a>
-<a href="/result_task">Result Task</a>
-<a href="/interface">Create set</a>
-<a href="/options">Create classifier</a>
-<a href="/result_classifier">Result Classifier</a>
+    <nav class="navbar navbar-default " role="navigation">
+  <div class="container-fluid">
+ <div class="navbar-header">
+ <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+ <span class="sr-only">Toggle navigation</span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+ </button>
+ <a class="navbar-brand" href="#">Згенерувати задачі</a>
+ </div>
+ <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+ <ul class="nav navbar-nav">
+     <li><a href="/">Головне меню</a></li>>
+     <li><a href="/result_task">Результати генерації</a></li>
+    {#   <li><a href="/interface">Згенерувати задачу</a></li> #}
+    <li><a href="/options">Створити класифікатор</a></li>
+     <li><a href="/result_classifier">Переглянути класифікатор</a></li>
+ </ul>
+ </div>
+  </div>
+</nav>
 <br>
-
+     {{ form.csrf_token }}
 <div class="container">
     <form class="form-horizontal" method="POST">
-        <legend><h2>Пристрої</h2></legend>
-        <div class="form-group {% if form.I_type.errors %} has-error {% endif %}">
+       <legend><h2>Пристрої</h2></legend>
+        <div class="form-group ">
             {{form.I_type.label(class="col-sm-2")}}
             <div class="col-sm-2">
                 {{form.I_type(class="form-control")}}
             </div>
-            <p class="col-sm-5 help-block">
-            {{ form.I_type.errors[0] }}
         </div>
         <div class="row">
             <label class="col-sm-2">Кількість</label>
-            <div class=" {% if form.n_min.errors %} has-error {% endif %}">
+            <div class="">
                 {{form.n_min.label(class="col-sm-1")}}
                 <div class="col-sm-1">
                     {{form.n_min(class="form-control")}}
                 </div>
             </div>
-            <div class=" {% if form.n_max.errors %} has-error {% endif %}">
+            <div class=" ">
                 {{form.n_max.label(class="col-sm-1")}}
                 <div class="col-sm-1">
                     {{form.n_max(class="form-control")}}
                 </div>
             </div>
-            <div class=" {% if form.n_step.errors %} has-error {% endif %}">
+            <div class="">
                 {{form.n_step.label(class="col-sm-1")}}
                 <div class="col-sm-1">
                     {{form.n_step(class="form-control")}}
@@ -47,7 +62,7 @@
         </div>
         <br>
         <legend><h2>Завдання</h2></legend>
-        <div class="form-group {% if form.C.errors %} has-error {% endif %}">
+        <div class="form-group">
             {{form.C.label(class="col-sm-2")}}
             <div class="col-sm-2">
                 {{form.C(class="form-control")}}
@@ -55,7 +70,7 @@
 {#            <p class="col-sm-5 help-block">#}
 {#            {{ form.C.errors[0] }}#}
         </div>
-        <div class="form-group {% if form.P.errors %} has-error {% endif %}">
+        <div class="form-group ">
             {{form.P.label(class="col-sm-2")}}
             <div class="col-sm-2">
                 {{form.P(class="form-control")}}
@@ -63,7 +78,7 @@
 {#            <p class="col-sm-5 help-block">#}
 {#            {{ form.P.errors[0] }}#}
         </div>
-        <div class="form-group {% if form.H.errors %} has-error {% endif %}">
+        <div class="form-group ">
             {{form.H.label(class="col-sm-2")}}
             <div class="col-sm-2">
                 {{form.H(class="form-control")}}
@@ -71,7 +86,7 @@
 {#            <p class="col-sm-5 help-block">#}
 {#            {{ form.H.errors[0] }}#}
         </div>
-        <div class="form-group {% if form.Q.errors %} has-error {% endif %}">
+        <div class="form-group">
             {{form.Q.label(class="col-sm-2")}}
             <div class="col-sm-2">
                 {{form.Q(class="form-control")}}
@@ -79,7 +94,7 @@
 {#            <p class="col-sm-5 help-block">#}
 {#            {{ form.Q.errors[0] }}#}
         </div>
-        <div class="form-group {% if form.distribution.errors %} has-error {% endif %}">
+        <div class="form-group ">
             {{form.distribution.label(class="col-sm-2")}}
             <div class="col-sm-2">
                 {{form.distribution(class="form-control")}}
@@ -87,7 +102,7 @@
 {#            <p class="col-sm-5 help-block">#}
 {#            {{ form.distribution.errors[0] }}#}
         </div>
-        <div class="form-group {% if form.amount_of_tasks.errors %} has-error {% endif %}">
+        <div class="form-group">
             {{form.amount_of_tasks.label(class="col-sm-2")}}
             <div class="col-sm-2">
                 {{form.amount_of_tasks(class="form-control")}}
@@ -95,7 +110,7 @@
 {#            <p class="col-sm-5 help-block">#}
 {#            {{ form.amount_of_tasks.errors[0] }}#}
         </div>
-        <div class="form-group {% if form.gen_algo.errors %} has-error {% endif %}">
+        <div class="form-group">
             {{form.gen_algo.label(class="col-sm-2")}}
             <div class="col-sm-2">
                 {{form.gen_algo(class="form-control")}}
@@ -104,7 +119,7 @@
 {#            {{ form.gen_algo.errors[0] }}#}
         </div>
         <legend><h2>Критерії</h2></legend>
-        <div class="form-group {% if form.add_opt_task.errors %} has-error {% endif %}">
+        <div class="form-group">
             {{form.add_opt_task.label(class="col-sm-2")}}
             <div class="col-sm-2">
                 {{form.add_opt_task(class="form-control")}}

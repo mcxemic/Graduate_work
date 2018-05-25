@@ -26,6 +26,7 @@
       var columns = {{columns|tojson}};
 
       $(function() {
+          JSON.stringify(data, null,'\n')
         $('#table').bootstrapTable({
           data: data,
           columns: columns,
