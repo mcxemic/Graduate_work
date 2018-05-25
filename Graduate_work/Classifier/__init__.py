@@ -117,7 +117,7 @@ def create_tasks(form):
     for i in range(form.amount_of_tasks.data):
         sets = generate_sets(form.distribution.data, form.amount_of_tasks.data, devises, real_p, real_q, C,
                          form.gen_algo.data)
-        write_to_task_table(form=form, set_id=set_id, productivity_factors=productivity_factors, sets=sets, C=C)
+        write_to_task_table(set_id=set_id, productivity_factors=productivity_factors, sets=sets, C=C, devices=devises)
     # algorithms.run_algorithms(productivity_factors,sets,set_id,form.initial_schedule.data)
 
 
@@ -157,20 +157,20 @@ def get_factors_from_forms(form):
     import json
 
     classifiers = db.session.query(Classifier).order_by(Classifier.id)[-1]
-    print('Classifiers ', classifiers)
+    # print('Classifiers ', classifiers)
     scat_Q = return_classifier_value(form.Q.data, json.loads(classifiers.scattering_q))
     dur_P = return_classifier_value(form.P.data, json.loads(classifiers.duration_p))
     dis_h = return_classifier_value(form.H.data, json.loads(classifiers.dispersion_h))
-    print(scat_Q, dur_P, dis_h, ' clas')
+    #print(scat_Q, dur_P, dis_h, ' clas')
     return scat_Q, dur_P, dis_h
 
 
-def write_to_task_table(form, set_id, productivity_factors, sets, C):
+def write_to_task_table(set_id, productivity_factors, sets, C, devices):
     from ..models import Task
     from .. import db
     import json
 
-    for i in range(form.amount_of_tasks.data):
+    for i in range(len(devices)):
         tsk = Task(set_id=set_id, productivity_factor=json.dumps(productivity_factors[i]),
                    devises_amount=len(productivity_factors[i]), tasks=json.dumps(sets[i]))
         db.session.add(tsk)
@@ -203,5 +203,18 @@ def output_stat():
     from ..models import Task
     set_id = db.session.query(Task).order_by(Task.set_id)[-1].set_id
 
-    return db.session.query(Task.set_id, Task.devises_amount, func.sum(Task.first_lead_time)).filter(
-        Task.set_id == set_id).all(), set_id
+    machiee_count = db.session.query(Task.devises_amount).filter(Task.set_id == set_id).all()
+    machiee_count_list = []
+    for i in machiee_count:
+        machiee_count_list.append(i[0])
+    machiee_count_set = set(machiee_count_list)
+
+    # query = []
+    # for i in machiee_count_set:
+    time_query = db.session.query(Task.devises_amount, func.avg(Task.first_lead_time)).filter(
+        Task.set_id == set_id).group_by(Task.devises_amount).order_by(Task.devises_amount).all()
+    # query.append(time_query)
+
+    print(time_query)
+    # print(query)
+    return time_query, set_id
