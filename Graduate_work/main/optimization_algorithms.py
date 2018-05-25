@@ -128,10 +128,10 @@ def create_ideal_c(tasks, coefficient):
 def get_finall_T(list_schedules, coefficient):
     # get keys from input dict initial timetable
     # print('Get Finall t list_schedules {}  coefficient {}'.format(list_schedules,coefficient))
-    print('List sched {}'.format(list_schedules))
+    # print('List sched {}'.format(list_schedules))
     keys = [list(i.values()) for i in list_schedules]
     # get task from keys for calculate ideal value
-    print('get task from keys keys {} coefficient {}'.format(keys, coefficient))
+    #print('get task from keys keys {} coefficient {}'.format(keys, coefficient))
     task = list(get_task_from_keys(keys, coefficient))
     ideal = create_ideal_c(task, coefficient)
     c_for_each_machine = [round(ideal / i, 3) for i in coefficient]
@@ -149,7 +149,7 @@ def get_finall_T(list_schedules, coefficient):
 def create(keys, ideal, coefficient, final_T,iter=0):
     now_T = [round(sum(i), 2) for i in keys]
     # print('Tasks {}'.format(keys))
-    if now_T != final_T and iter < 500:
+    if now_T != final_T and iter < 250:
         length_for_each_machine = [sum(i) for i in keys]
         # print('sum for each machine {}'.format(length_for_each_machine))
         deviation_machine, reserve_machine, normally_machine = get_deviation(length_for_each_machine, ideal)

@@ -7,13 +7,14 @@ from . import views, errors
 
 def generate_sets(type_distribution, count_set, count_devices, mean_duration_P, deviation_duration_Q, C, gen_algo):
     sets = []
-    print("generate_sets", type_distribution, count_devices, count_set, mean_duration_P, deviation_duration_Q, C)
-    for _ in range(count_set):
+    # print("generate_sets", type_distribution, count_devices, count_set, mean_duration_P, deviation_duration_Q, C)
+    for _ in range(len(count_devices)):
         sets.append([])
-    for j in range(count_set):
+    for j in range(len(count_devices)):
         sets[j].extend(
             create_task_for_multiply_machine(type_distribution, count_devices[j], mean_duration_P, deviation_duration_Q,
                                              C, gen_algo))
+    print('Generate set sets {}'.format(sets))
     return sets
 
 

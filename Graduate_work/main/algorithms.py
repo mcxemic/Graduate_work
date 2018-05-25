@@ -8,7 +8,7 @@ def calculate_task_table_from_productivity_factors(tasks_lists, productivity_fac
     productivity_factors.sort()
     tasks_lists.sort()
     tasks_lists.reverse()
-    print(productivity_factors, tasks_lists)
+    # print(productivity_factors, tasks_lists)
 
     for j in range(len(productivity_factors)):
         row = []
@@ -33,7 +33,8 @@ def calculate_second_table(table):
 
 def output_result_algorithm(result):
     for i in enumerate(result):
-        print('Machine ', i[0] + 1, i[1])
+        pass
+        # print('Machine ', i[0] + 1, i[1])
 
 
 def A1(count_of_machine, count_of_tasks, task_table_with_coefficient):
@@ -162,9 +163,9 @@ def write_to_alorithms_table(task_id, schedule1, schedule2):
     from .. import db
     import json
     for i in range(len(schedule1)):
-        print('schedule1  {0}   schedule {1}'.format(schedule1, schedule2))
-        print('1 len {0}, type {1}  schedule {2}'.format(len(schedule1), type(schedule1[0]), schedule1[i][0]), i)
-        print('2 len {0}, type {1}  schedule {2}'.format(len(schedule2), type(schedule2[0]), schedule2[i][0]))
+        # print('schedule1  {0}   schedule {1}'.format(schedule1, schedule2))
+        # print('1 len {0}, type {1}  schedule {2}'.format(len(schedule1), type(schedule1[0]), schedule1[i][0]), i)
+        #print('2 len {0}, type {1}  schedule {2}'.format(len(schedule2), type(schedule2[0]), schedule2[i][0]))
         sched_JSON1 = json.dumps(schedule1[i])
         sched_JSON2 = json.dumps(schedule2[i])
         alg = Algorithm(task_id=task_id, initial_timetable_first_alg=sched_JSON1,

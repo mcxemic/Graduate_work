@@ -30,7 +30,7 @@ def result_task():
         with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
             config = json.load(f)
         f.close()
-        print('already GET')
+        # print('already GET')
         return render_template('result_task.html',
                            data=convert_task_to_dict(option_task),
                            columns=config['tasks'],
@@ -42,7 +42,7 @@ def result_task():
         id = request.form['id']
         from_val = request.form['from']
         to_val = request.form['to']
-        print(id, from_val, to_val)
+        #print(id, from_val, to_val)
         update_value(id, from_val, to_val)
         option_set, option_task, option_algo = output_from_task_table()
         with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
@@ -82,7 +82,7 @@ def options():
         insert_in_classifier_table(duration_p=json_form_data[0],
                                    scattering_q=json_form_data[1],
                                    dispersion_h=json_form_data[2])
-        print("insert succsessfull", json_form_data)
+        #print("insert succsessfull", json_form_data)
         return redirect('/interface')
     return render_template("options.html", form=form)
 
@@ -152,8 +152,8 @@ def update_value(id,from_val,to_val):
     import json
     tasks = Task.query.filter_by(id=int(id)).first()
     task_list = list(json.loads(tasks.tasks))
-    print(type(task_list), task_list)
+    #print(type(task_list), task_list)
     task_list[task_list.index(int(from_val))] = int(to_val)
     tasks.tasks = json.dumps(task_list)
     db.session.commit()
-    print('task list {0}'.format(task_list))
+    #print('task list {0}'.format(task_list))
