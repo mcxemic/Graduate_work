@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+{% extends "bootstrap/base.html" %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Вхідні параметри</title>
+
+</head>
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+{% endblock %}
+
+{% block content %}
+ <nav class="navbar navbar-default " role="navigation">
+  <div class="container-fluid">
+ <div class="navbar-header">
+ <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+ <span class="sr-only">Toggle navigation</span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+ </button>
+ <a class="navbar-brand" href="#">Побудувати графіки</a>
+ </div>
+ <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+ <ul class="nav navbar-nav">
+     <li><a href="/">Головне меню</a></li>>
+     <li><a href="/result_task">Результати генерації</a></li>
+     <li><a href="/interface">Згенерувати задачу</a></li>
+    <li><a href="/options">Створити класифікатор</a></li>
+  <li><a href="/result_classifier">Переглянути класифікатори</a></li>
+ </ul>
+ </div>
+  </div>
+</nav>
+<br>
+<div class="container">
+    <form method="post">
+         <div class="form-group">
+             <div class="form-group row">
+            <label class="col-sm-1 col-form-label">Задача id1</label>
+            <div class="col-sm-3">{{ form.id1(class_="form-control") }}</div>
+        </div>
+        <div class="form-group">
+             <div class="form-group row">
+            <label class="col-sm-1 col-form-label">Задача id2</label>
+            <div class="col-sm-3">{{ form.id2(class_="form-control") }}</div>
+        </div>  <div class="form-group">
+             <div class="form-group row">
+            <label class="col-sm-1 col-form-label">Вісь X</label>
+            <div class="col-sm-3">{{ form.paramsX(class_="form-control") }}</div>
+        </div>  <div class="form-group">
+             <div class="form-group row">
+            <label class="col-sm-1 col-form-label">Вісь Y</label>
+            <div class="col-sm-3">{{ form.paramsY(class_="form-control") }}</div>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Побудувати графіки</button>
+
+</form>
+
+</div>
+{% endblock %}
