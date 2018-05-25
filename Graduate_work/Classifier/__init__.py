@@ -203,5 +203,18 @@ def output_stat():
     from ..models import Task
     set_id = db.session.query(Task).order_by(Task.set_id)[-1].set_id
 
-    return db.session.query(Task.set_id, Task.devises_amount, func.sum(Task.first_lead_time)).filter(
-        Task.set_id == set_id).all(), set_id
+    machiee_count = db.session.query(Task.devises_amount).filter(Task.set_id == set_id).all()
+    machiee_count_list = []
+    for i in machiee_count:
+        machiee_count_list.append(i[0])
+    machiee_count_set = set(machiee_count_list)
+
+    # query = []
+    # for i in machiee_count_set:
+    time_query = db.session.query(Task.devises_amount, func.avg(Task.first_lead_time)).filter(
+        Task.set_id == set_id).group_by(Task.devises_amount).order_by(Task.devises_amount).all()
+    # query.append(time_query)
+
+    print(time_query)
+    # print(query)
+    return time_query, set_id

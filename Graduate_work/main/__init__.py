@@ -30,7 +30,10 @@ def create_task_for_one_machine(type_distribution, mu, sigma, c, gen_algo):
     normal_distribution_set = choose_distribution(type_distribution, mu, sigma, c)
     machine = [int(i) for i in normal_distribution_set]
     if sum(machine) < c:
-        machine.append(c - sum(machine))
+        if c - sum(machine) > 0:
+            machine.append(c - sum(machine))
+        else:
+            machine.append(1)
 
     if random.randint(0, 1) == 1 and gen_algo == '2':
         machine.append(1)
@@ -42,10 +45,14 @@ def create_set_distribution(method, mu, sigma, c):
     normal = []
     while c > mu + 2 * sigma:
         x = method(mu, sigma)
-        normal.append(x)
-        c -= x
-    normal.append(c)
 
+        if x > 0:
+            normal.append(x)
+        else:
+            normal.append(1)
+        c -= x
+    if c > 0:
+        normal.append(c)
     return normal
 
 
