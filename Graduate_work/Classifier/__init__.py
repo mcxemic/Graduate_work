@@ -197,24 +197,25 @@ def get_productivity_factors(length, coef):
     return productive_factors
 
 
-def output_stat():
+def output_stat(set_id1, set_id2):
     from sqlalchemy import func
     from .. import db
     from ..models import Task
-    set_id = db.session.query(Task).order_by(Task.set_id)[-1].set_id
 
-    machiee_count = db.session.query(Task.devises_amount).filter(Task.set_id == set_id).all()
-    machiee_count_list = []
-    for i in machiee_count:
-        machiee_count_list.append(i[0])
-    machiee_count_set = set(machiee_count_list)
+    query1 = db.session.query(Task.devises_amount, func.avg(Task.first_lead_time)).filter(
+        Task.set_id == set_id1).group_by(Task.devises_amount).order_by(Task.devises_amount).all()
+    query2 = db.session.query(Task.devises_amount, func.avg(Task.first_lead_time)).filter(
+        Task.set_id == set_id2).group_by(Task.devises_amount).order_by(Task.devises_amount).all()
 
-    # query = []
-    # for i in machiee_count_set:
-    time_query = db.session.query(Task.devises_amount, func.avg(Task.first_lead_time)).filter(
-        Task.set_id == set_id).group_by(Task.devises_amount).order_by(Task.devises_amount).all()
-    # query.append(time_query)
+    return query1, query2
 
-    print(time_query)
-    # print(query)
-    return time_query, set_id
+
+def create_graph(query1, query2):
+    machine_count, first_time, second_time = [], [], []
+    for i in range(len(query1)):
+        machine_count.append(query1[i][0])
+        first_time.append(query1[i][1])
+    for i in range(len(query2)):
+        second_time.append(query2[i][1])
+
+    return machine_count, first_time, second_time

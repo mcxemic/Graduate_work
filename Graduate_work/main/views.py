@@ -1,6 +1,7 @@
+import json
 import os
 
-from flask import render_template, request, redirect, json
+from flask import render_template, request, redirect, json, url_for
 
 from . import *
 from .forms import *
@@ -32,7 +33,7 @@ def result_task():
         with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
             config = json.load(f)
         f.close()
-        print('already GET')
+        # print('already GET')
         return render_template('result_task.html',
                            data=convert_task_to_dict(option_task),
                            columns=config['tasks'],
@@ -44,7 +45,7 @@ def result_task():
         id = request.form['id']
         from_val = request.form['from']
         to_val = request.form['to']
-        print(id, from_val, to_val)
+        #print(id, from_val, to_val)
         update_value(id, from_val, to_val)
         option_set, option_task, option_algo = output_from_task_table()
         with open(os.path.join(os.path.dirname(__file__), "columns.json")) as f:
@@ -59,10 +60,23 @@ def result_task():
                                title1='Вхідні дані для генерації')
 
 
-@main.route('/statistic', methods=['GET'])
-def create_stat():
+@main.route('/statistic', methods=['GET', 'POST'])
+def create_stat(chartID='chart_ID', chart_type='line', chart_height=500):
+
     form = StatisticForm()
-   # query, id = output_stat()
+    query1, query2 = output_stat(form.id1.data, form.id2.data)
+    if request.method == 'POST':
+        machine_count, first_time, second_time = create_graph(query1, query2)
+        print(machine_count, first_time, second_time)
+        chart = {"renderTo": chartID, "type": chart_type, "height": chart_height, }
+        series = [{"name": 'Час виконання першому сеті', "data": first_time},
+                  {"name": 'Час виконання на другому сеті', "data": second_time}]
+        title = {"text": 'Порівняння часу виконання для різної кількості машин'}
+        xAxis = {"categories": machine_count}
+        yAxis = {"title": {"text": 'Час виконання'}}
+        return redirect(
+            url_for('main.graph', first_time=first_time, second_time=second_time, machine_count=machine_count))
+
     return render_template('statistic.html', form=form)
 
 @main.route('/result_classifier', methods=['GET'])
@@ -113,6 +127,21 @@ def show_output():
                            data=convert_data_to_dict(option_algo),
                            columns=config['algo'],
                            title='Початкові розклади')
+
+
+@main.route('/graph')
+def graph(chartID='chart_ID', chart_type='line', chart_height=500):
+    first_time = [float(i) for i in request.args.getlist('first_time')]
+    second_time = [float(i) for i in request.args.getlist('second_time')]
+    machine_count = [int(i) for i in request.args.getlist('machine_count')]
+    chart = {"renderTo": chartID, "type": chart_type, "height": chart_height, }
+    series = [{"name": 'Час виконання першому сеті', "data": first_time},
+              {"name": 'Час виконання на другому сеті', "data": second_time}]
+    title = {"text": 'Порівняння часу виконання для різної кількості машин'}
+    xAxis = {"categories": machine_count}
+    yAxis = {"title": {"text": 'Час виконання'}}
+    return render_template('graph.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis,
+                           yAxis=yAxis)
 
 
 
