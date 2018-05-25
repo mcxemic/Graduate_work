@@ -1,6 +1,6 @@
 import os
 
-from flask import render_template, request, redirect, json
+from flask import render_template, request, redirect, json, flash
 
 from . import *
 from .forms import *
@@ -124,7 +124,10 @@ def update_value(id,from_val,to_val):
     tasks = Task.query.filter_by(id=int(id)).first()
     task_list = list(json.loads(tasks.tasks))
     print(type(task_list), task_list)
-    task_list[task_list.index(int(from_val))] = int(to_val)
-    tasks.tasks = json.dumps(task_list)
-    db.session.commit()
-    print('task list {0}'.format(task_list))
+    if from_val not in task_list:
+        flash('You were successfully logged in')
+    else:
+        task_list[task_list.index(int(from_val))] = int(to_val)
+        tasks.tasks = json.dumps(task_list)
+        db.session.commit()
+        print('task list {0}'.format(task_list))
