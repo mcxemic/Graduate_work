@@ -52,7 +52,7 @@ def insert_in_set_table(form):
             'n_min': form.n_min.data, 'n_max': form.n_max.data, 'n_step': form.n_step.data,
             'I_type': form.I_type.data, 'distribution': form.distribution.data,
             'amount_of_tasks': form.amount_of_tasks.data}
-
+    print(sets)
     st = Set(size_q=sets['Q'], size_h=sets['H'], size_p=sets['P'],
              classifier_id=db.session.query(func.max(Classifier.id)),
              type_device=sets['I_type'], tasks_count=sets['amount_of_tasks'],

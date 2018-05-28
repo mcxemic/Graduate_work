@@ -81,7 +81,7 @@ def result_classifier():
 @main.route('/options', methods=['POST', 'GET'])
 def options():
     form = OptionForm()
-    if request.method == 'POST' and form.validate_on_submit():
+    if request.method == 'POST': #and form.validate_on_submit():
         json_form_data = json_from_option_form(form)
         insert_in_classifier_table(duration_p=json_form_data[0],
                                    scattering_q=json_form_data[1],
