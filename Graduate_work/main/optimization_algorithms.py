@@ -14,11 +14,18 @@
 2. Функція яка за допомогою листа з довжинами та ідеального розкладу повертає три листа пустих, з резервом, з відхиленням
 
 """
+import sys
+sys.setrecursionlimit(15000)
 
-
-def projection(now_T,final_T):
+def projection(now_T, final_T):
+    max_projection = 0
+    relatively_projection = 0
     for i in range(len(now_T)):
-        yield abs(now_T[i]-final_T[i])
+        if max_projection < abs(now_T[i] - final_T[i]):
+            max_projection = abs(now_T[i] - final_T[i])
+            relatively_projection = round(abs(now_T[i] - final_T[i]) / final_T[i] * 100, 2)
+    return max_projection, relatively_projection
+
 
 def get_deviation(length_for_each_machine, ideal):
     deviation = [round(i - ideal, 3) if i > ideal else 0 for i in length_for_each_machine]
@@ -59,7 +66,6 @@ def get_matrix_of_swap_coefficien(best_machine, worse_machine, best_machine_coef
             Theta = i / worse_machine_coefficient - j / best_machine_coefficient
             if Theta > 0:
                 matrix_of_swap_coefficient.append((Theta, i, j))
-    # print(matrix_of_swap_coefficient)
     return matrix_of_swap_coefficient
 
 
@@ -107,7 +113,6 @@ def create_optimization(sigma, coefficient, list_T):
 
 
 def get_task_from_keys(keys, coefficient):
-
     for i in range(len(keys)):
         for j in keys[i]:
             yield round(j / coefficient[i], 0)
@@ -130,8 +135,6 @@ def get_finall_T(list_schedules, coefficient):
     # print('Get Finall t list_schedules {}  coefficient {}'.format(list_schedules,coefficient))
     # print('List sched {}'.format(list_schedules))
     keys = [list(i.values()) for i in list_schedules]
-    # get task from keys for calculate ideal value
-    #print('get task from keys keys {} coefficient {}'.format(keys, coefficient))
     task = list(get_task_from_keys(keys, coefficient))
     ideal = create_ideal_c(task, coefficient)
     c_for_each_machine = [round(ideal / i, 3) for i in coefficient]
@@ -145,11 +148,11 @@ def get_finall_T(list_schedules, coefficient):
     return final_T, keys, ideal
 
 
-
-def create(keys, ideal, coefficient, final_T,iter=0):
+def create(keys, ideal, coefficient, final_T, iteration=0, recursion_depth=None):
+    if recursion_depth==None:
+        recursion_depth = []
     now_T = [round(sum(i), 2) for i in keys]
-    # print('Tasks {}'.format(keys))
-    if now_T != final_T and iter < 250:
+    if now_T != final_T and iteration < 5000:
         length_for_each_machine = [sum(i) for i in keys]
         # print('sum for each machine {}'.format(length_for_each_machine))
         deviation_machine, reserve_machine, normally_machine = get_deviation(length_for_each_machine, ideal)
@@ -171,8 +174,7 @@ def create(keys, ideal, coefficient, final_T,iter=0):
                                                    worse_machine_coefficient, best_task_to_swap, worse_task_to_swap)
         keys[deviation_machine.index(max(deviation_machine))] = new_worse_machine
         keys[reserve_machine.index(max(reserve_machine))] = new_best_machine
-
-        create(keys, ideal, coefficient, final_T, iter + 1)
-    max_projection = max(projection(now_T, final_T))
-    return keys, max_projection
-
+        recursion_depth.append(iteration + 1)
+        create(keys, ideal, coefficient, final_T, iteration + 1,recursion_depth=recursion_depth)
+    max_projection, relatively_projection = projection(now_T, final_T)
+    return keys, max_projection, relatively_projection, len(recursion_depth)

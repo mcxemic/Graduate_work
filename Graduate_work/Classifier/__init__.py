@@ -197,7 +197,7 @@ def get_productivity_factors(length, coef):
     return productive_factors
 
 
-def output_stat(set_id1, set_id2):
+def output_stat_ave_time(set_id1, set_id2):
     from sqlalchemy import func
     from .. import db
     from ..models import Task
@@ -207,6 +207,18 @@ def output_stat(set_id1, set_id2):
     query2 = db.session.query(Task.devises_amount, func.avg(Task.first_lead_time)).filter(
         Task.set_id == set_id2).group_by(Task.devises_amount).order_by(Task.devises_amount).all()
 
+    return query1, query2
+
+def output_stat_ave_relative_projection(set_id1, set_id2):
+    from sqlalchemy import func
+    from .. import db
+    from ..models import Task
+
+    query1 = db.session.query(Task.devises_amount, func.avg(Task.first_relatively_projection)).filter(
+        Task.set_id == set_id1).group_by(Task.devises_amount).order_by(Task.devises_amount).all()
+    query2 = db.session.query(Task.devises_amount, func.avg(Task.first_relatively_projection)).filter(
+        Task.set_id == set_id2).group_by(Task.devises_amount).order_by(Task.devises_amount).all()
+    print('Query1',query1)
     return query1, query2
 
 

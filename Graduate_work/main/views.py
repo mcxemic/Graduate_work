@@ -64,18 +64,32 @@ def result_task():
 def create_stat(chartID='chart_ID', chart_type='line', chart_height=500):
 
     form = StatisticForm()
-    query1, query2 = output_stat(form.id1.data, form.id2.data)
+
+
     if request.method == 'POST':
-        machine_count, first_time, second_time = create_graph(query1, query2)
-        print(machine_count, first_time, second_time)
-        chart = {"renderTo": chartID, "type": chart_type, "height": chart_height, }
-        series = [{"name": 'Час виконання першому сеті', "data": first_time},
+        print('PSOT',request.form.get('Time_submit'))
+        if request.form.get('Time_submit') == 'Time':
+            query1, query2 = output_stat_ave_time(form.id1.data, form.id2.data)
+            machine_count, first_time, second_time = create_graph(query1, query2)
+            chart = {"renderTo": chartID, "type": chart_type, "height": chart_height, }
+            series = [{"name": 'Час виконання першому сеті', "data": first_time},
                   {"name": 'Час виконання на другому сеті', "data": second_time}]
-        title = {"text": 'Порівняння часу виконання для різної кількості машин'}
-        xAxis = {"categories": machine_count}
-        yAxis = {"title": {"text": 'Час виконання'}}
-        return redirect(
-            url_for('main.graph', first_time=first_time, second_time=second_time, machine_count=machine_count))
+            title = {"text": 'Порівняння часу виконання для різної кількості машин'}
+            xAxis = {"categories": machine_count}
+            yAxis = {"title": {"text": 'Час виконання'}}
+            return redirect(url_for('main.graph', first_time=first_time, second_time=second_time, machine_count=machine_count))
+
+        elif request.form.get('Relative_submit')=='Relative_Projection':
+            query11, query22 = output_stat_ave_relative_projection(form.id1.data, form.id2.data)
+            machine_count, first_time, second_time = create_graph(query11, query22)
+            chart = {"renderTo": chartID, "type": chart_type, "height": chart_height, }
+            series = [{"name": 'Відносне відхидення в першому сеті', "data": first_time},
+                      {"name": 'Відносне відхидення другому сеті', "data": second_time}]
+            title = {"text": 'Порівняння відносної відхиленності для різної кількості машин'}
+            xAxis = {"categories": machine_count}
+            yAxis = {"title": {"text": 'Час виконання'}}
+            return redirect(
+                url_for('main.time_graph', first_time=first_time, second_time=second_time, machine_count=machine_count))
 
     return render_template('statistic.html', form=form)
 
@@ -134,15 +148,36 @@ def graph(chartID='chart_ID', chart_type='line', chart_height=500):
     first_time = [float(i) for i in request.args.getlist('first_time')]
     second_time = [float(i) for i in request.args.getlist('second_time')]
     machine_count = [int(i) for i in request.args.getlist('machine_count')]
+
+
     chart = {"renderTo": chartID, "type": chart_type, "height": chart_height, }
     series = [{"name": 'Час виконання першому сеті', "data": first_time},
               {"name": 'Час виконання на другому сеті', "data": second_time}]
     title = {"text": 'Порівняння часу виконання для різної кількості машин'}
     xAxis = {"categories": machine_count}
     yAxis = {"title": {"text": 'Час виконання'}}
+
+
+
     return render_template('graph.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis,
                            yAxis=yAxis)
 
+
+@main.route('/time_graph')
+def time_graph(chartID='chart_ID', chart_type='line', chart_height=500):
+    first_time = [float(i) for i in request.args.getlist('first_time')]
+    second_time = [float(i) for i in request.args.getlist('second_time')]
+    machine_count = [int(i) for i in request.args.getlist('machine_count')]
+
+    chart = {"renderTo": chartID, "type": chart_type, "height": chart_height, }
+    series = [{"name": 'Час виконання першому сеті', "data": first_time},
+              {"name": 'Час виконання на другому сеті', "data": second_time}]
+    title = {"text": 'Порівняння часу виконання для різної кількості машин'}
+    xAxis = {"categories": machine_count}
+    yAxis = {"title": {"text": 'Час виконання'}}
+
+    return render_template('time_graph.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis,
+                           yAxis=yAxis)
 
 
 def update_value(id,from_val,to_val):

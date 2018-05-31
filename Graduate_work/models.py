@@ -46,9 +46,8 @@ class Task(db.Model):
     first_Optimization = db.Column(db.JSON)
     first_projection = db.Column(db.Float)
     first_lead_time = db.Column(db.Float)
-    second_Optimization = db.Column(db.JSON)
-    second_projection = db.Column(db.Float)
-    second_lead_time = db.Column(db.Float)
+    first_relatively_projection= db.Column(db.Float)
+    first_iteration_count = db.Column(db.Float)
 
     # TODO __repr__
 

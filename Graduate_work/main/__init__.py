@@ -14,7 +14,7 @@ def generate_sets(type_distribution, count_set, count_devices, mean_duration_P, 
         sets[j].extend(
             create_task_for_multiply_machine(type_distribution, count_devices[j], mean_duration_P, deviation_duration_Q,
                                              C, gen_algo))
-    print('Generate set sets {}'.format(sets))
+    # print('Generate set sets {}'.format(sets))
     return sets
 
 
@@ -23,10 +23,12 @@ def create_task_for_multiply_machine(type_distribution, count_devices, mu, sigma
     for _ in range(count_devices):
         sets_of_machine.extend(create_task_for_one_machine(type_distribution, mu, sigma, C, gen_algo))
     sets_of_machine.sort()
+    # print('Generate sets {}'.format(sets_of_machine))
     return sets_of_machine
 
 
 def create_task_for_one_machine(type_distribution, mu, sigma, c, gen_algo):
+    #create one machine
     import random
     normal_distribution_set = choose_distribution(type_distribution, mu, sigma, c)
     machine = [int(i) for i in normal_distribution_set]
@@ -39,6 +41,7 @@ def create_task_for_one_machine(type_distribution, mu, sigma, c, gen_algo):
     if random.randint(0, 1) == 1 and gen_algo == '2':
         machine.append(1)
     machine.sort()
+    # print('Generate machine {}'.format(machine))
     return machine
 
 

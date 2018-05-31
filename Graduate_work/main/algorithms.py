@@ -149,14 +149,16 @@ def run_algorithms(productivity_factors, sets, task_id, C):
     for i in range(len(sets)):
         start1 = time.time()
         final_T_first, keys1, ideal1 = get_finall_T(schedules_first_alg[i], productivity_factors[i])
-        optimizationed_schedule1,max_proj1 = create(keys1, ideal1, productivity_factors[i], final_T_first)
+        optimizationed_schedule1,max_proj1,relative_projection1,iteration_count1 = create(keys1, ideal1, productivity_factors[i], final_T_first)
+        print("Iteration count 1 {}".format(iteration_count1))
         stop1 = time.time()
-        write_to_optimization_table(task_id, optimizationed_schedule1, max_proj1, stop1 - start1)
+        write_to_optimization_table(task_id, optimizationed_schedule1, max_proj1, stop1 - start1,relative_projection1,iteration_count1)
         start2 = time.time()
         final_T_second, keys2, ideal2 = get_finall_T(schedules_secoond_alg[i], productivity_factors[i])
-        optimizationed_schedule2,max_proj2 = create(keys2, ideal2, productivity_factors[i], final_T_second)
+        optimizationed_schedule2,max_proj2,relative_projection2,iteration_count2 = create(keys2, ideal2, productivity_factors[i], final_T_second)
+        print("Iteration count 2 {}".format(iteration_count2))
         stop2 = time.time()
-        write_to_optimization_table(task_id,optimizationed_schedule2,max_proj2,stop2-start2)
+        write_to_optimization_table(task_id,optimizationed_schedule2,max_proj2,stop2-start2,relative_projection2,iteration_count2)
 
 def write_to_alorithms_table(task_id, schedule1, schedule2):
     from ..models import Algorithm
@@ -174,7 +176,7 @@ def write_to_alorithms_table(task_id, schedule1, schedule2):
         db.session.commit()
 
 
-def write_to_optimization_table(task_id,algorithm,projection,runtime):
+def write_to_optimization_table(task_id,algorithm,projection,runtime,relative_projection,iteration_count):
     from ..models import Task
     import json
     from .. import db
@@ -184,5 +186,6 @@ def write_to_optimization_table(task_id,algorithm,projection,runtime):
     tsk.first_Optimization = algo
     tsk.first_projection = projection
     tsk.first_lead_time = runtime
-
+    tsk.first_relatively_projection = relative_projection
+    tsk.first_iteration_count = iteration_count
     db.session.commit()
